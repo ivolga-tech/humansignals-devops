@@ -7,4 +7,4 @@ multilingual = false
 [output.html]
 git-repository-url = "https://github.com/ivolga-tech/humansignals-devops/tree/main/docs"
 edit-url-template = "https://github.com/ivolga-tech/humansignals-devops/edit/main/docs/{path}"
-site-url = "/docs/"
+site-url = "/humansignals-devops/"
