@@ -16,7 +16,7 @@ jobs:
           profile: minimal
       - run: cargo install mdbook
       - run: mdbook build docs
-      - uses: JamesIves/github-pages-deploy-action@4
+      - uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: docs/book
