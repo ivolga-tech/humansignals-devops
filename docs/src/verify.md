@@ -3,35 +3,39 @@
 In this section we check that some of the required steps have been
 correctly installed and configured.
 
-## TODO
+### Check pods
 
-After installation is done, go to the server where are HumanSignals
-is deployed and run this command:
+Go to the server where are HumanSignals is deployed and run this command:
 
-```sh
-$ kubectl -n humansignals get all
 ```
+$ kubectl -n humansignals get pods
+```
+
 You will see something like this:
 
-![pods](images/kube_get_all.png)
+![pods](images/pods.png)
 
-Check that all pods are running or complete.
-At the end of check that completions are done.
+All pods should be running or completed.
 
-![completions](images/completions.png)
+### Check jobs
 
-After it check your deployment from web browser.
-
-If you do not have real hostname, you need to edit your `hosts` file.
-
-```sh
-$ sudo nano /etc/hosts
+```
+$ kubectl -n humansignals get jobs
 ```
 
-place at the end of file string in this format:
+![jobs](images/jobs.png)
 
-`IP hostname`
 
-**Example**
+### Check ingress
+
+Go to your web browser and enter your domain.
+
+![ingress](images/ingress.png)
+
+If you do not have real domain, you need to edit your `hosts` file:
+
+```sh
+$ echo "<VM_IP> <HS_DOMAIN>" | sudo tee -a /etc/hosts
+```
 
 ![hosts](images/hosts.png)
