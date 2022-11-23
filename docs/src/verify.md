@@ -44,7 +44,3 @@ ip_adress hostname
 **Example**
 
 ![hosts](images/hosts.png)
-
-
-
-
