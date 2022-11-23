@@ -10,9 +10,10 @@ $ cd humansignals-devops/ansible
 ## Create a hosts file with your data
 
 ```sh
-$ echo \
-"[humansignals]
-<VM_IP> ansible_user=<VM_USER>" > hosts
+$ cat << EOF > hosts
+[humansignals]
+<VM_IP> ansible_user=<VM_USER>
+EOF
 ```
 
 ## Install dependencies
