@@ -23,19 +23,9 @@ After it check your deployment from web browser.
 
 if you dont have real hostname, you need to edit yor hosts file.
 
-**in linux**
-
 ```sh
 $ sudo nano /etc/hosts
 ```
-
-**in windows**
-
-open this file with administrator privileges 
-```sh
-C:\Windows\System32\drivers\etc
-```
-
 
 place at the end of file string in this format:
 
