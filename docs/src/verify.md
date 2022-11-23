@@ -25,7 +25,6 @@ $ kubectl -n humansignals get jobs
 
 ![jobs](images/jobs.png)
 
-
 ### Check ingress
 
 Go to your web browser and enter your domain.
