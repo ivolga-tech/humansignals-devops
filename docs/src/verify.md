@@ -12,12 +12,12 @@ $ kubectl -n humansignals get all
 ```
 You will see somthing like this:
 
-![pods](../images/kube_get_all.png)
+![pods](images/kube_get_all.png)
 
 Check that all pods are running or complete.
 At the end of check that completions are done
 
-![completions](../images/completions.png)
+![completions](images/completions.png)
 
 After it check your deployment from web browser.
 
@@ -43,7 +43,7 @@ ip_adress hostname
 
 **Example**
 
-![hosts](../images/hosts.png)
+![hosts](images/hosts.png)
 
 
 
