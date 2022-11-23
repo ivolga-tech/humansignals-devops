@@ -5,23 +5,24 @@ correctly installed and configured.
 
 ## TODO
 
-After instalation is done, go to the server where are Humansignals is deployed and run thic command:
+After installation is done, go to the server where are HumanSignals
+is deployed and run this command:
 
 ```sh
 $ kubectl -n humansignals get all
 ```
-You will see somthing like this:
+You will see something like this:
 
 ![pods](images/kube_get_all.png)
 
 Check that all pods are running or complete.
-At the end of check that completions are done
+At the end of check that completions are done.
 
 ![completions](images/completions.png)
 
 After it check your deployment from web browser.
 
-if you dont have real hostname, you need to edit yor hosts file.
+If you do not have real hostname, you need to edit your `hosts` file.
 
 ```sh
 $ sudo nano /etc/hosts
@@ -29,7 +30,7 @@ $ sudo nano /etc/hosts
 
 place at the end of file string in this format:
 
-ip_adress hostname
+`IP hostname`
 
 **Example**
 
