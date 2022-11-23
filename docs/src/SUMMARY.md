@@ -7,5 +7,5 @@
 - [Requirements](requirements.md)
 - [Installation](installation.md)
 - [Verify Installation](verify.md)
-- [Troubleshooting]()
+- [Troubleshooting](troubleshooting.md)
 - [FAQ]()
