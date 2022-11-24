@@ -1,4 +1,10 @@
-# FAQ
+# Frequently Asked Questions
+
+- [Are the errors I'm seeing important?](#are-the-errors-im-seeing-important)
+- [How do I connect to the web server's shell?](#how-do-i-connect-to-the-web-servers-shell)
+- [How do I connect to Postgres?](#how-do-i-connect-to-postgres)
+- [How do I connect to ClickHouse?](#how-do-i-connect-to-clickhouse)
+- [How do I restart all pods for a service?](#how-do-i-restart-all-pods-for-a-service)
 
 ## Are the errors I'm seeing important?
 
