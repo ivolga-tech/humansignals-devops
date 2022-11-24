@@ -3,7 +3,7 @@
 - [Are the errors I'm seeing important?](#are-the-errors-im-seeing-important)
 - [How do I see logs for a pod?](#how-do-i-see-logs-for-a-pod)
 - [How do I connect to the web server's shell?](#how-do-i-connect-to-the-web-servers-shell)
-- [How do I connect to Postgres?](#how-do-i-connect-to-postgres)
+- [How do I connect to PostgreSQL?](#how-do-i-connect-to-postgresql)
 - [How do I connect to ClickHouse?](#how-do-i-connect-to-clickhouse)
 - [How do I restart all pods for a service?](#how-do-i-restart-all-pods-for-a-service)
 
@@ -78,38 +78,28 @@ For example, to see the number of users in your instance run:
 User.objects.count()
 ```
 
-## How do I connect to Postgres?
+## How do I connect to PostgreSQL?
 
-    Find out your Postgres password from the web pod:
+1. Find out your PostgreSQL password from the web pod:
 
-Terminal
-```
-# First we need to determine the name of the web pod – see "How do I see logs for a pod?" for more on this
-HUMANSIGNALS_WEB_POD_NAME=$(kubectl get pods -n humansignals | grep -- '-web-' | awk '{print $1}')
-# Then we can get the password from the pod's environment variables
-kubectl exec -n humansignals -it $HUMANSIGNALS_WEB_POD_NAME -- sh -c 'echo The Postgres password is: $HUMANSIGNALS_DB_PASSWORD'
+```sh
+$ kubectl -n humansignals exec -it deploy/humansignals-web -c humansignals-web -- sh -c 'echo The PostgreSQL password is: $HUMANSIGNALS_DB_PASSWORD'
 ```
 
-Connect to your Postgres pod's shell:
+2. Connect to the `humansignals` database:
 
-Terminal
+**You're connecting to your production database, proceed with caution!**
 
-```
-# We need to determine the name of the Postgres pod (usually it's 'humansignals-humansignals-postgresql-0')
-HUMANSIGNALS_POSTGRES_POD_NAME=$(kubectl get pods -n humansignals | grep -- '-postgresql-' | awk '{print $1}')
-# We'll connect straight to the Postgres pod's psql interface
-kubectl exec -n humansignals -it $HUMANSIGNALS_POSTGRES_POD_NAME  -- /bin/bash
+```sh
+$ kubectl -n humansignals exec -it sts/humansignals-humansignals-postgresql -- psql -d humansignals -U postgres
 ```
 
-Connect to the humansignals database:
+PostgreSQL will ask you for the password.
+Use the value you found out in step 1.
 
-    You're connecting to your production database, proceed with caution!
-
-Terminal
-```
-$ psql -d humansignals -U postgres
-```
-    Postgres will ask you for the password. Use the value you found out in step 1. Now you can run SQL queries! Just remember that an SQL query needs to be terminated with a semicolon ; to run.
+Now you can run SQL queries!
+Just remember that an SQL query needs
+to be terminated with a semicolon `;` to run.
 
 ## How do I connect to ClickHouse?
 
