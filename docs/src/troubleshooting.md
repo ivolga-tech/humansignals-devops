@@ -17,7 +17,7 @@ $ kubectl -n humansignals get pods
 You can use this command to check the logs of our pods.
 
 ```sh
-$ kubectl -n humansignals logs <pod name> | less
+$ kubectl -n humansignals logs <pod_name> | less
 ```
 
 The best way to start your research is with the web container,
