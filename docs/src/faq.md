@@ -119,19 +119,18 @@ $ kubectl -n humansignals exec -it sts/chi-humansignals-humansignals-0-0 -- clic
 
 ## How do I restart all pods for a service?
 
-    Important: Not all services can be safely restarted this way. It is safe to do this for the app/plugin server. If you have any doubts, ask someone from the PostHog team.
+**Important**: Not all services can be safely restarted this way.
+It is safe to do this for the app/plugin server.
+If you have any doubts, ask someone from the HumanSignals team.
 
-    Terminate all running pods for the service:
+1. Terminate all running pods for the service:
 
-Terminal
+```sh
+$ kubectl -n humansignals scale --replicas 0 deploy/humansignals-plugins
 ```
-# substitute humansignals-plugins for the desired service
-kubectl scale deployment humansignals-plugins --replicas=0 -n humansignals
-```
 
-Start new pods for the service:
+2. Start new pods for the service:
 
-```
-# substitute humansignals-plugins for the desired service
-kubectl scale deployment humansignals-plugins --replicas=1 -n humansignals
+```sh
+$ kubectl -n humansignals scale --replicas 1 deploy/humansignals-plugins
 ```
