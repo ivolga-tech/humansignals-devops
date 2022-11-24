@@ -1,6 +1,7 @@
 # Frequently Asked Questions
 
 - [Are the errors I'm seeing important?](#are-the-errors-im-seeing-important)
+- [How do I see logs for a pod?](#how-do-i-see-logs-for-a-pod)
 - [How do I connect to the web server's shell?](#how-do-i-connect-to-the-web-servers-shell)
 - [How do I connect to Postgres?](#how-do-i-connect-to-postgres)
 - [How do I connect to ClickHouse?](#how-do-i-connect-to-clickhouse)
@@ -30,23 +31,22 @@ TooManyConnections: too many connections
     raise TooManyConnections("too many connections")
 ```
 
-How do I see logs for a pod?
+## How do I see logs for a pod?
 
-    Find the name of the pod you want to get logs on:
+1. Find the name of the pod you want to get logs on:
 
-Terminal
+```sh
+$ kubectl -n humansignals get pods
 ```
-$ kubectl get pods -n humansignals
-```
 
-This command will list all running pods. If you want app/plugin server logs, for example, look for a pod that has a name starting with humansignals-plugins. This will be something like humansignals-plugins-54f324b649-66afm
+This command will list all running pods. If you want app/plugin server logs,
+for example, look for a pod that has a name starting with `humansignals-plugins`.
+This will be something like `humansignals-plugins-b7759745d-kwb7b`.
 
-Get the logs for that pod using the name from the previous step:
+2. Get the logs for that pod using the name from the previous step:
 
-Terminal
-
-```
-kubectl logs humansignals-plugins-54f324b649-66afm -n humansignals
+```sh
+$ kubectl -n humansignals logs humansignals-plugins-b7759745d-kwb7b
 ```
 
 ## How do I connect to the web server's shell?
