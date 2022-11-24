@@ -15,6 +15,7 @@ in our app and is safe to ignore:
 The following messages in the ClickHouse pod happen when ClickHouse reshuffles
 how it consumes from the topics. So, anytime ClickHouse or Kafka restarts
 we'll get a bit of noise and the following log entries are safe to ignore:
+
 ```
 <Error> TCPHandler: Code: 60, e.displayText() = DB::Exception: Table humansignals.sharded_events doesn't exist.
 ...
@@ -23,6 +24,7 @@ we'll get a bit of noise and the following log entries are safe to ignore:
 
 The following error is produced by some low-priority celery tasks and
 we haven't seen any actual impact so can safely be ignored.
+
 ```
 TooManyConnections: too many connections
   File "humansignals/celery.py",
@@ -51,18 +53,15 @@ $ kubectl -n humansignals logs humansignals-plugins-b7759745d-kwb7b
 
 ## How do I connect to the web server's shell?
 
-PostHog is built on Django, which comes with some useful utilities. One of them is a Python shell. You can connect to it like so:
+HumanSignals is built on Django, which comes with some useful utilities.
+One of them is a Python shell. You can connect to it like so:
 
-Terminal
-
-```
-# First we need to determine the name of the web pod – see "How do I see logs for a pod?" for more on this
-HUMANSIGNALS_WEB_POD_NAME=$(kubectl get pods -n humansignals | grep -- '-web-' | awk '{print $1}')
-# Then we connect to the interactive Django shell
-kubectl exec -n humansignals -it $HUMANSIGNALS_WEB_POD_NAME -- python manage.py shell_plus
+```sh
+$ kubectl -n humansignals exec -it deploy/humansignals-web -c humansignals-web -- python manage.py shell_plus
 ```
 
-In a moment you should see the shell load and finally a message like this appear:
+In a moment you should see the shell load
+and finally a message like this appear:
 
 ```
 Type "help", "copyright", "credits" or "license" for more information.
@@ -70,9 +69,12 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>>
 ```
 
-That means you can now type Python code and run it with PostHog context (such as models) already loaded! For example, to see the number of users in your instance run:
+That means you can now type Python code and run it with
+HumanSignals context (such as models) already loaded!
 
-```
+For example, to see the number of users in your instance run:
+
+```python
 User.objects.count()
 ```
 
