@@ -103,31 +103,18 @@ to be terminated with a semicolon `;` to run.
 
 ## How do I connect to ClickHouse?
 
-    Tip: Find out your pod names with kubectl get pods -n humansignals
+1. Find out your ClickHouse user and password from the web pod:
 
-    Find out your ClickHouse user and password from the web pod:
-
-Terminal
-
-```
-kubectl exec -n humansignals -it <your-humansignals-web-pod> \
--- sh -c 'echo user:$CLICKHOUSE_USER password:$CLICKHOUSE_PASSWORD'
+```sh
+$ kubectl -n humansignals exec -it deploy/humansignals-web -c humansignals-web -- sh -c 'echo -e "User: $CLICKHOUSE_USER\nPassword: $CLICKHOUSE_PASSWORD"'
 ```
 
-Connect to the chi-humansignals-humansignals-0-0-0 pod:
+2. Connect to the `humansignals` database:
 
-Terminal
-```
-kubectl exec -n humansignals -it chi-humansignals-humansignals-0-0-0  -- /bin/bash
-```
+**You're connecting to your production database, proceed with caution!**
 
-Connect to ClickHouse using clickhouse-client:
-
-    Note: You're connecting to your production database, proceed with caution!
-
-Terminal
-```
-clickhouse-client -d humansignals --user <user_from_step_1> --password <password_from_step_1>
+```sh
+$ kubectl -n humansignals exec -it sts/chi-humansignals-humansignals-0-0 -- clickhouse-client -d humansignals --user <user_from_step_1> --password <password_from_step_1>
 ```
 
 ## How do I restart all pods for a service?
