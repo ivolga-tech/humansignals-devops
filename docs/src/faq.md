@@ -8,16 +8,20 @@
 
 ## Are the errors I'm seeing important?
 
-Here are some examples of log spam that currently exists in our app and is safe to ignore:
+Here are some examples of log spam that currently exists
+in our app and is safe to ignore:
 
-The following messages in the ClickHouse pod happen when ClickHouse reshuffles how it consumes from the topics. So, anytime ClickHouse or Kafka restarts we'll get a bit of noise and the following log entries are safe to ignore:
+The following messages in the ClickHouse pod happen when ClickHouse reshuffles
+how it consumes from the topics. So, anytime ClickHouse or Kafka restarts
+we'll get a bit of noise and the following log entries are safe to ignore:
 ```
- <Error> TCPHandler: Code: 60, e.displayText() = DB::Exception: Table humansignals.sharded_events doesn't exist.
+<Error> TCPHandler: Code: 60, e.displayText() = DB::Exception: Table humansignals.sharded_events doesn't exist.
 ...
 <Warning> StorageKafka (kafka_session_recording_events): Can't get assignment. It can be caused by some issue with consumer group (not enough partitions?). Will keep trying.
 ```
 
-The following error is produced by some low-priority celery tasks and we haven't seen any actual impact so can safely be ignored. It shows up in Sentry as well.
+The following error is produced by some low-priority celery tasks and
+we haven't seen any actual impact so can safely be ignored.
 ```
 TooManyConnections: too many connections
   File "humansignals/celery.py",
