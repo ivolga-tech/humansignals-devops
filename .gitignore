@@ -1,1 +1,6 @@
+### mdBook ###
 book
+
+### Helm ###
+# Chart dependencies
+**/charts/*.tgz

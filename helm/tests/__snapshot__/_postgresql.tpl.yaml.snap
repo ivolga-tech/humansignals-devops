@@ -1,0 +1,85 @@
+should render with custom values:
+  1: |
+    - name: HUMANSIGNALS_POSTGRES_HOST
+      value: RELEASE-NAME-customName
+    - name: HUMANSIGNALS_POSTGRES_PORT
+      value: "5432"
+    - name: HUMANSIGNALS_DB_USER
+      value: postgres
+    - name: HUMANSIGNALS_DB_NAME
+      value: customDb
+    - name: HUMANSIGNALS_DB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: postgresql-password
+          name: RELEASE-NAME-customName
+    - name: USING_PGBOUNCER
+      value: "false"
+should render with defaults:
+  1: |
+    - name: HUMANSIGNALS_POSTGRES_HOST
+      value: RELEASE-NAME-humansignals-postgresql
+    - name: HUMANSIGNALS_POSTGRES_PORT
+      value: "5432"
+    - name: HUMANSIGNALS_DB_USER
+      value: postgres
+    - name: HUMANSIGNALS_DB_NAME
+      value: humansignals
+    - name: HUMANSIGNALS_DB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: postgresql-password
+          name: RELEASE-NAME-humansignals-postgresql
+    - name: USING_PGBOUNCER
+      value: "false"
+should render with existing secret:
+  1: |
+    - name: HUMANSIGNALS_POSTGRES_HOST
+      value: RELEASE-NAME-humansignals-postgresql
+    - name: HUMANSIGNALS_POSTGRES_PORT
+      value: "5432"
+    - name: HUMANSIGNALS_DB_USER
+      value: postgres
+    - name: HUMANSIGNALS_DB_NAME
+      value: humansignals
+    - name: HUMANSIGNALS_DB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: postgresql-password
+          name: someExistingSecret
+    - name: USING_PGBOUNCER
+      value: "false"
+should render with external postgresql and existing secret:
+  1: |
+    - name: HUMANSIGNALS_POSTGRES_HOST
+      value: pg.foo.bar
+    - name: HUMANSIGNALS_POSTGRES_PORT
+      value: "5432"
+    - name: HUMANSIGNALS_DB_USER
+      value: someuser
+    - name: HUMANSIGNALS_DB_NAME
+      value: somedb
+    - name: HUMANSIGNALS_DB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: somekey
+          name: password123
+    - name: USING_PGBOUNCER
+      value: "false"
+should render with external postgresql and password:
+  1: |
+    - name: HUMANSIGNALS_POSTGRES_HOST
+      value: pg.foo.bar
+    - name: HUMANSIGNALS_POSTGRES_PORT
+      value: "5432"
+    - name: HUMANSIGNALS_DB_USER
+      value: someuser
+    - name: HUMANSIGNALS_DB_NAME
+      value: somedb
+    - name: HUMANSIGNALS_DB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: postgresql-password
+          name: RELEASE-NAME-humansignals-external
+    - name: USING_PGBOUNCER
+      value: "false"
