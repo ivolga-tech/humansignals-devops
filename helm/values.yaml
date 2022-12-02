@@ -42,10 +42,9 @@ humansignalsSecretKey:
   existingSecretKey: humansignals-secret
 
 # -- Environment variables to inject into every HumanSignals deployment.
-env: []
-# env:
-#   - name: FOO
-#     value: bar
+env:
+  - name: TRUST_ALL_PROXIES
+    value: "1"
 
 migrate:
   # -- Whether to install the HumanSignals migrate job or not.
