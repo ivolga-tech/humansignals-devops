@@ -1,5 +1,5 @@
 # -- Cloud service being deployed on (example: `aws`, `azure`, `do`, `gcp`, `other`).
-cloud:
+cloud: other
 
 # -- Notification email for notifications to be sent to from the HumanSignals stack
 notificationEmail:
