@@ -83,7 +83,7 @@ User.objects.count()
 1. Find out your PostgreSQL password from the web pod:
 
 ```sh
-$ kubectl -n humansignals exec -it deploy/humansignals-web -c humansignals-web -- sh -c 'echo The PostgreSQL password is: $HUMANSIGNALS_DB_PASSWORD'
+$ kubectl -n humansignals exec -it deploy/humansignals-web -c humansignals-web -- sh -c 'echo The PostgreSQL password is: $POSTHOG_DB_PASSWORD'
 ```
 
 2. Connect to the `humansignals` database:

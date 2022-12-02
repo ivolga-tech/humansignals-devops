@@ -1,14 +1,14 @@
 {{/* Common Redis ENV variables */}}
 {{- define "snippet.redis-env" }}
 
-- name: HUMANSIGNALS_REDIS_HOST
+- name: POSTHOG_REDIS_HOST
   value: {{ include "humansignals.redis.host" . }}
 
-- name: HUMANSIGNALS_REDIS_PORT
+- name: POSTHOG_REDIS_PORT
   value: {{ include "humansignals.redis.port" . }}
 
 {{- if (include "humansignals.redis.auth.enabled" .) }}
-- name: HUMANSIGNALS_REDIS_PASSWORD
+- name: POSTHOG_REDIS_PASSWORD
   valueFrom:
     secretKeyRef:
       name: {{ include "humansignals.redis.secretName" . }}

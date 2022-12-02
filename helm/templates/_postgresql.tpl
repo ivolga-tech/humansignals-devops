@@ -2,15 +2,15 @@
 
 {{/* ENV used by humansignals deployments for connecting to postgresql */}}
 {{- define "snippet.postgresql-env" }}
-- name: HUMANSIGNALS_POSTGRES_HOST
+- name: POSTHOG_POSTGRES_HOST
   value: {{ template "humansignals.pgbouncer.host" . }}
-- name: HUMANSIGNALS_POSTGRES_PORT
+- name: POSTHOG_POSTGRES_PORT
   value: {{ include "humansignals.pgbouncer.port" . | quote }}
-- name: HUMANSIGNALS_DB_USER
+- name: POSTHOG_DB_USER
   value: {{ include "humansignals.postgresql.username" . }}
-- name: HUMANSIGNALS_DB_NAME
+- name: POSTHOG_DB_NAME
   value: {{ include "humansignals.postgresql.database" . }}
-- name: HUMANSIGNALS_DB_PASSWORD
+- name: POSTHOG_DB_PASSWORD
   valueFrom:
     secretKeyRef:
       name: {{ include "humansignals.postgresql.secretName" . }}
@@ -22,15 +22,15 @@
 {{/* ENV used by migrate job for connecting to postgresql */}}
 {{- define "snippet.postgresql-migrate-env" }}
 # Connect directly to postgres (without pgbouncer) to avoid statement_timeout for longer-running queries
-- name: HUMANSIGNALS_POSTGRES_HOST
+- name: POSTHOG_POSTGRES_HOST
   value: {{ template "humansignals.postgresql.host" . }}
-- name: HUMANSIGNALS_POSTGRES_PORT
+- name: POSTHOG_POSTGRES_PORT
   value: {{ include "humansignals.postgresql.port" . | quote }}
-- name: HUMANSIGNALS_DB_USER
+- name: POSTHOG_DB_USER
   value: {{ include "humansignals.postgresql.username" . }}
-- name: HUMANSIGNALS_DB_NAME
+- name: POSTHOG_DB_NAME
   value: {{ include "humansignals.postgresql.database" . }}
-- name: HUMANSIGNALS_DB_PASSWORD
+- name: POSTHOG_DB_PASSWORD
   valueFrom:
     secretKeyRef:
       name: {{ include "humansignals.postgresql.secretName" . }}
