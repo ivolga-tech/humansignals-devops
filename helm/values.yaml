@@ -10,7 +10,7 @@ siteUrl:
 
 image:
   # -- HumanSignals image repository to use.
-  repository: humansignals/humansignals
+  repository: posthog/posthog
   # -- HumanSignals image SHA to use (example: `sha256:20af35fca6756d689d6705911a49dd6f2f6631e001ad43377b605cfc7c133eb4`).
   sha:
   # -- HumanSignals image tag to use (example: `release-1.42.0`).
