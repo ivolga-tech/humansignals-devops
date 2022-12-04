@@ -1,0 +1,5 @@
+- name: Include common tasks
+  ansible.builtin.include_tasks: "{{ item }}"
+  loop:
+    - install_pip.yml
+    - install_python_dependencies.yml

@@ -7,3 +7,13 @@
     release_values: "{{ lookup('ansible.builtin.template', 'values.yaml') | ansible.builtin.from_yaml }}"
     create_namespace: yes
     wait: yes
+
+- name: Allow nginx to use X-Forwarded-* headers
+  kubernetes.core.k8s:
+    state: patched
+    kind: ConfigMap
+    name: ingress-nginx-controller
+    namespace: ingress-nginx
+    resource_definition:
+      data:
+        use-forwarded-headers: "true"

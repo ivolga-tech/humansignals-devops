@@ -1,0 +1,7 @@
+- name: Install python dependencies
+  ansible.builtin.pip:
+    name:
+      # kubernetes.core.k8s module requirements
+      - kubernetes>=12.0.0
+      - PyYAML>=3.11
+      - jsonpatch

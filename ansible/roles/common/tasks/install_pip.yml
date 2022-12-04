@@ -1,0 +1,12 @@
+- name: Download get-pip.py
+  ansible.builtin.get_url:
+    url: https://bootstrap.pypa.io/get-pip.py
+    dest: /tmp/get-pip.py
+    mode: 0644
+
+- name: Install pip
+  ansible.builtin.command:
+    argv:
+      - "{{ ansible_python_interpreter if ansible_python_interpreter is defined else 'python3' }}"
+      - /tmp/get-pip.py
+    creates: ~/.local/bin/pip

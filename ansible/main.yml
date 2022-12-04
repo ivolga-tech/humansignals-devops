@@ -2,6 +2,9 @@
   hosts: all
   become: yes
   roles:
+    - role: common
+      become: no
+
     - role: geerlingguy.docker
       vars:
         docker_install_compose: no
