@@ -1,0 +1,5 @@
+{{ server.host }} {
+  tls internal
+
+  reverse_proxy {{ humansignals_ingress_ip }}
+}

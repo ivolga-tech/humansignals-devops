@@ -17,3 +17,14 @@
     resource_definition:
       data:
         use-forwarded-headers: "true"
+
+- name: Get a HumanSignals Ingress
+  kubernetes.core.k8s_info:
+    kind: Ingress
+    name: humansignals
+    namespace: humansignals
+  register: humansignals_ingress
+
+- name: Create HumanSignals Ingress IP fact for Caddy
+  ansible.builtin.set_fact:
+    humansignals_ingress_ip: "{{ humansignals_ingress.resources[0].status.loadBalancer.ingress[0].ip }}"

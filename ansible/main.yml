@@ -16,12 +16,8 @@
     - role: geerlingguy.helm
       vars:
         helm_version: v3.10.2
-
-    - role: caddy_ansible.caddy_ansible
-      vars:
-        caddy_user: caddy
-        caddy_systemd_capabilities_enabled: yes
-        caddy_config: "{{ lookup('ansible.builtin.template', 'Caddyfile') }}"
     
     - role: humansignals
       become: no
+
+    - role: caddy
