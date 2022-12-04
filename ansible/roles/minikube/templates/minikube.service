@@ -1,0 +1,16 @@
+[Unit]
+Description=minikube
+After=network-online.target containerd.service docker.service
+Wants=network-online.target docker.service
+Requires=docker.socket containerd.service docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/bin/minikube start --addons=ingress --memory=max --cpus=max --kubernetes-version=v1.25.3
+ExecStop=/usr/local/bin/minikube stop
+User={{ ansible_user }}
+Group={{ ansible_user }}
+
+[Install]
+WantedBy=multi-user.target

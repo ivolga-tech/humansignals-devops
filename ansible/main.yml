@@ -1,0 +1,24 @@
+- name: Install HumanSignals and its dependencies
+  hosts: all
+  become: yes
+  roles:
+    - role: geerlingguy.docker
+      vars:
+        docker_install_compose: no
+        docker_users:
+          - "{{ ansible_user }}"
+
+    - role: minikube
+
+    - role: geerlingguy.helm
+      vars:
+        helm_version: v3.10.2
+
+    - role: caddy_ansible.caddy_ansible
+      vars:
+        caddy_user: caddy
+        caddy_systemd_capabilities_enabled: yes
+        caddy_config: "{{ lookup('ansible.builtin.template', 'Caddyfile') }}"
+    
+    - role: humansignals
+      become: no

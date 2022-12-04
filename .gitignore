@@ -4,3 +4,6 @@ book
 ### Helm ###
 # Chart dependencies
 **/charts/*.tgz
+
+### Ansible ###
+hosts

@@ -1,0 +1,11 @@
+- name: Install Minikube
+  ansible.builtin.import_role:
+    name: gantsign.minikube
+
+- name: Install Minikube Service
+  ansible.builtin.template:
+    src: minikube.service
+    dest: /etc/systemd/system/minikube.service
+    mode: 0644
+  notify:
+    - Restart Minikube
