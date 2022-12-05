@@ -34,3 +34,9 @@ $ ansible-playbook -i hosts main.yml
 ```
 
 Now you have to wait ~30 minutes.
+
+## Check your HumanSignals installation
+
+1. Open the web browser
+3. Enter your domain or use the [default](https://humansignals-sda.ivolga.tech)
+2. Congratulations! 🎉🎉🎉
