@@ -16,6 +16,11 @@ $ cat << EOF > hosts
 EOF
 ```
 
+## Set your domain
+
+1. Open the `group_vars/humansignals.yml`
+2. Change the `server.host` value
+
 ## Install dependencies
 
 ```sh
