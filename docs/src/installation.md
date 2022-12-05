@@ -28,4 +28,4 @@ $ ansible-galaxy install -r requirements.yml
 $ ansible-playbook -i hosts main.yml
 ```
 
-Now you have to wait ~15 minutes.
+Now you have to wait ~30 minutes.
