@@ -1,2 +1,2 @@
 [humansignals]
-<VM_IP> ansible_user=<VM_USER>
+$VM_IP ansible_user=$VM_USER

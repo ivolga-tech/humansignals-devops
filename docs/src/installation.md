@@ -9,11 +9,11 @@ $ cd humansignals-devops/ansible
 
 ## Create a hosts file with your data
 
+Use this command to create a hosts file with your credentails
+such as destination IP and user with sudo privileges.
+
 ```sh
-$ cat << EOF > hosts
-[humansignals]
-<VM_IP> ansible_user=<VM_USER>
-EOF
+$ VM_IP=<destination IP> VM_USER=<sudo user> envsubst < hosts.example > hosts
 ```
 
 ## Set your domain
