@@ -4,6 +4,13 @@
     dest: /tmp/get-pip.py
     mode: 0644
 
+- name: Download distutils
+  become : yes
+  ansible.builtin.apt:
+    name: python3-distutils
+    state: present
+    update_cache: yes
+
 - name: Install pip
   ansible.builtin.command:
     argv:
