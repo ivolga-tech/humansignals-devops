@@ -6,4 +6,4 @@ book
 **/charts/*.tgz
 
 ### Ansible ###
-hosts
+ansible/hosts
