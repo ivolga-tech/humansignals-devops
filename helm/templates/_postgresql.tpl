@@ -82,6 +82,16 @@ Set postgres secret password key
 {{- end -}}
 
 {{/*
+Set postgres FQDN
+*/}}
+{{- define "humansignals.postgresql.fqdn" -}}
+{{- $fullname := include "humansignals.postgresql.fullname" . -}}
+{{- $releaseNamespace := .Release.Namespace -}}
+{{- $clusterDomain := .Values.clusterDomain -}}
+{{- printf "%s.%s.svc.%s." $fullname $releaseNamespace $clusterDomain -}}
+{{- end -}}
+
+{{/*
 Set postgres host
 */}}
 {{- define "humansignals.postgresql.host" -}}
