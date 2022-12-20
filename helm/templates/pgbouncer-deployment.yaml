@@ -96,7 +96,7 @@ spec:
         - name: POSTGRESQL_DATABASE
           value: {{ include "humansignals.postgresql.database" . }}
         - name: POSTGRESQL_HOST
-          value: {{ include "humansignals.postgresql.host" . }}
+          value: {{ include "humansignals.postgresql.fqdn" . }}
         - name: POSTGRESQL_PORT
           value: {{ include "humansignals.postgresql.port" . | quote }}
 
