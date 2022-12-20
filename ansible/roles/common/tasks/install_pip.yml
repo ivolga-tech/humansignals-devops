@@ -4,12 +4,13 @@
     dest: /tmp/get-pip.py
     mode: 0644
 
-- name: Download distutils
-  become : yes
+- name: Install distutils
+  become: yes
   ansible.builtin.apt:
     name: python3-distutils
     state: present
     update_cache: yes
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Install pip
   ansible.builtin.command:
