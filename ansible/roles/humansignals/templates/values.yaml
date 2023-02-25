@@ -1,2 +1,34 @@
 ingress:
   hostname: "{{ server.host }}"
+  
+{% if clickhouse.versionRequirements == false %}
+env:
+    - name: SKIP_SERVICE_VERSION_REQUIREMENTS
+      value: '1'
+{% endif %}
+
+clickhouse:
+  # -- Whether to install clickhouse. If false, `clickhouse.host` must be set
+  enabled: {{ clickhouse.internalClickhouse }}
+## External clickhouse configuration
+{% if clickhouse.internalClickhouse == false %}
+externalClickhouse:
+  # -- Host of the external cluster. This is required when clickhouse.enabled is false
+  host: {{ clickhouse.host }}
+  # -- Name of the external cluster to run DDL queries on. This is required when clickhouse.enabled is false
+  cluster: {{ clickhouse.cluster }}
+  # -- Database name for the external cluster
+  database: humansignals
+  # -- User name for the external cluster to connect to the external cluster as
+  user: {{ clickhouse.user }}
+  # -- Password for the cluster. Ignored if existingClickhouse.existingSecret is set
+  password: {{ clickhouse.password }}
+  # -- Name of an existing Kubernetes secret object containing the password
+  existingSecret: {{ clickhouse.existingSecret }}
+  # -- Name of the key pointing to the password in your Kubernetes secret
+  existingSecretPasswordKey: {{ clickhouse.existingSecretPasswordKey }}
+  # -- Whether to use TLS connection connecting to ClickHouse
+  secure: {{ clickhouse.secure }}
+  # -- Whether to verify TLS connection connecting to ClickHouse
+  verify: {{ clickhouse.verify }}
+{% endif %}
