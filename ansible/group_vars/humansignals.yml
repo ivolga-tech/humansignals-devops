@@ -1,14 +1,14 @@
 server:
   host: hs-test.ivolga.tech
-  production: true
+  production: false
  
 clickhouse:
-  internalClickhouse: false
+  internalClickhouse: true
   # -- Which clickhouse to use. If false, below variables must be set
-  versionRequirements: false
+  versionRequirements: true
   # -- Clickhouse version must be >=21.6.0,<22.4.0. Humansignals
   # may not work correctly with the another version. To continue anyway set this variable to false
-  host: 10.129.0.24
+  host: hostname
   # -- Name of the external cluster to run DDL queries on. This is required when clickhouse.enabled is false
   cluster: humansignals
   # -- User name for the external cluster to connect to the external cluster as
