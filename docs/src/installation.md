@@ -27,6 +27,28 @@ $ VM_IP=<destination IP> VM_USER=<sudo user> envsubst < hosts.example > hosts
 $ ansible-galaxy install -r requirements.yml
 ```
 
+## TLS configuration
+
+If you want to use selfsigned certificate:
+1. Open the `group_vars/humansignals.yml`
+2. Change the `server.production` value to `false`
+
+In another case, when `server.production` value is `true` the certificate for your host will be generated automatically
+
+## Clickhouse configuration
+
+If you want to use external clickhouse cluster:
+1. Open the `group_vars/humansignals.yml`
+2. Change the `clickhouse.internalClickhouse` value to `false` and change values below
+
+Clickhouse version must be >=21.6.0 <22.4.0. Humansignals may not work correctly with the another version. To continue anyway set `clickhouse.versionRequirements` variable to `false`
+
+## Install dependencies
+
+```sh
+$ ansible-galaxy install -r requirements.yml
+```
+
 ## Run Ansible Playbook
 
 ```sh
