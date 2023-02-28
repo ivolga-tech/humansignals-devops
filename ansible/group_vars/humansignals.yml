@@ -4,23 +4,8 @@ server:
   host: humansignals-sda.ivolga.tech
 
 clickhouse:
-  internalClickhouse: true
-  # -- Which clickhouse to use. If false, below variables must be set
-  versionRequirements: true
-  # -- Clickhouse version must be >=21.6.0,<22.4.0. Humansignals
-  # may not work correctly with the another version. To continue anyway set this variable to false
-  host: hostname
-  # -- Name of the external cluster to run DDL queries on. This is required when clickhouse.enabled is false
-  cluster: humansignals
-  # -- User name for the external cluster to connect to the external cluster as
-  user: admin
-  # -- Password for the cluster. Ignored if existingClickhouse.existingSecret is set
-  password: password
-  # -- Name of an existing Kubernetes secret object containing the password
-  existingSecret:
-  # -- Name of the key pointing to the password in your Kubernetes secret
-  existingSecretPasswordKey:
-  # -- Whether to use TLS connection connecting to ClickHouse
-  secure: false
-  # -- Whether to verify TLS connection connecting to ClickHouse
-  verify: false
+  external: false
+  host:
+  cluster:
+  user:
+  password:
