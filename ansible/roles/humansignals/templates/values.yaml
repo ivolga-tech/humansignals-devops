@@ -2,9 +2,9 @@ ingress:
   hostname: "{{ server.host }}"
 
 clickhouse:
-  enabled: {{ clickhouse.external }}
+  enabled: {{ clickhouse.internal }}
 
-{% if not clickhouse.external %}
+{% if not clickhouse.internal %}
 externalClickhouse:
   host: {{ clickhouse.host }}
   cluster: {{ clickhouse.cluster }}

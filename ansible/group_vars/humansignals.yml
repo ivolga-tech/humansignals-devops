@@ -4,7 +4,7 @@ server:
   host: humansignals-sda.ivolga.tech
 
 clickhouse:
-  external: false
+  internal: true
   host:
   cluster:
   database:
