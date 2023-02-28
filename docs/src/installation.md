@@ -31,7 +31,7 @@ If you want to use Let's Encrypt certificate:
 
 If you want to use external ClickHouse cluster:
 1. Open the `group_vars/humansignals.yml`
-2. Change the `clickhouse.external` value to `false`
+2. Change the `clickhouse.internal` value to `false`
 3. Set all other `clickhouse.*` values
 
 ClickHouse version must be >=21.6.0 and <22.4.0.
