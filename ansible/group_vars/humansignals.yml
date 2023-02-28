@@ -1,7 +1,7 @@
 production: false
 
 server:
-  host: hs-test.ivolga.tech
+  host: humansignals-sda.ivolga.tech
 
 clickhouse:
   internalClickhouse: true
