@@ -1,7 +1,8 @@
+production: false
+
 server:
   host: hs-test.ivolga.tech
-  production: false
- 
+
 clickhouse:
   internalClickhouse: true
   # -- Which clickhouse to use. If false, below variables must be set

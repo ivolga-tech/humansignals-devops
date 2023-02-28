@@ -1,4 +1,7 @@
 {{ server.host }} {
-{% if server.production == false %}  tls internal{% endif %}   
-  reverse_proxy  {{ humansignals_ingress_ip }} 
+{% if not production %}
+  tls internal
+{% endif %}
+
+  reverse_proxy {{ humansignals_ingress_ip }}
 }
