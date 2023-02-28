@@ -7,5 +7,6 @@ clickhouse:
   external: false
   host:
   cluster:
+  database:
   user:
   password:

@@ -8,6 +8,7 @@ clickhouse:
 externalClickhouse:
   host: {{ clickhouse.host }}
   cluster: {{ clickhouse.cluster }}
+  database: {{ clickhouse.database }}
   user: {{ clickhouse.user }}
   password: {{ clickhouse.password }}
   secure: true
