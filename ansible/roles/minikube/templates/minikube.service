@@ -7,7 +7,7 @@ Requires=docker.socket containerd.service docker.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/usr/local/bin/minikube start --driver none --container-runtime cri-o --cni calico --kubernetes-version v1.25.3 --addons ingress
+ExecStart=/usr/local/bin/minikube start --driver none --container-runtime cri-o --cni calico --kubernetes-version v1.25.6 --addons ingress
 ExecStop=/usr/local/bin/minikube stop
 User={{ ansible_user }}
 Group={{ ansible_user }}
