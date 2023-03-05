@@ -15,7 +15,7 @@
 
     - role: geerlingguy.helm
       vars:
-        helm_version: v3.10.2
+        helm_version: v3.11.1
     
     - role: humansignals
       become: no
