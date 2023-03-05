@@ -5,12 +5,26 @@ clickhouse:
   enabled: {{ clickhouse.internal }}
 
 {% if not clickhouse.internal %}
+env:
+  - name: KAFKA_URL_FOR_CLICKHOUSE
+    value: "kafka://{{ ansible_host }}:9094"
+
+kafka:
+  externalAccess:
+    enabled: true
+    autoDiscovery:
+      enabled: true
+  serviceAccount:
+    create: true
+  rbac:
+    create: true
+
 externalClickhouse:
-  host: {{ clickhouse.host }}
-  cluster: {{ clickhouse.cluster }}
-  database: {{ clickhouse.database }}
-  user: {{ clickhouse.user }}
-  password: {{ clickhouse.password }}
-  secure: true
-  verify: true
+  host: "{{ clickhouse.host }}"
+  cluster: "{{ clickhouse.cluster }}"
+  database: "{{ clickhouse.database }}"
+  user: "{{ clickhouse.user }}"
+  password: "{{ clickhouse.password }}"
+  secure: {{ clickhouse.secure }}
+  verify: {{ clickhouse.verify }}
 {% endif %}

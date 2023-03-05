@@ -8,3 +8,7 @@ clickhouse:
   database:
   user:
   password:
+  # Whether to use TLS connection
+  secure: true
+  # Whether to verify TLS certificate
+  verify: true
