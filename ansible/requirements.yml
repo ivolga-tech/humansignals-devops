@@ -2,7 +2,7 @@ roles:
   - name: geerlingguy.docker
     version: 6.1.0
   - name: gantsign.minikube
-    version: 1.32.0
+    version: 1.33.0
   - name: geerlingguy.helm
     version: master
   - name: caddy_ansible.caddy_ansible
