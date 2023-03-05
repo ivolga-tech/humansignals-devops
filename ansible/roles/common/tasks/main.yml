@@ -2,6 +2,6 @@
   ansible.builtin.include_tasks: "{{ item }}"
   loop:
     - upgrade_system.yml
-    - install_pip.yml
-    - install_python_dependencies.yml
-    - install_conntrack.yml
+    - pip.yml
+    - python_dependencies.yml
+    - conntrack.yml
