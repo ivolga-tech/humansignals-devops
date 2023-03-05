@@ -1,0 +1,34 @@
+- name: Add MetalLB chart repo
+  kubernetes.core.helm_repository:
+    name: metallb
+    repo_url: https://metallb.github.io/metallb
+
+- name: Install MetalLB
+  kubernetes.core.helm:
+    chart_ref: metallb/metallb
+    chart_version: v0.13.9
+    create_namespace: yes
+    release_name: metallb
+    release_namespace: metallb-system
+    timeout: 1m
+    wait: yes
+
+- name: Add address pool
+  kubernetes.core.k8s:
+    apply: yes
+    api_version: metallb.io/v1beta1
+    kind: IPAddressPool
+    name: single-pool
+    namespace: metallb-system
+    resource_definition:
+      spec:
+        addresses:
+          - "{{ ansible_host }}/32"
+
+- name: Add L2 advertisement
+  kubernetes.core.k8s:
+    apply: yes
+    api_version: metallb.io/v1beta1
+    kind: L2Advertisement
+    name: empty
+    namespace: metallb-system
