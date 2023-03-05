@@ -1,0 +1,4 @@
+- name: Reload CRI-O
+  ansible.builtin.systemd:
+    name: crio
+    state: reloaded

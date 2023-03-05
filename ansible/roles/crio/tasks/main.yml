@@ -1,0 +1,14 @@
+- name: Install CRI-O
+  ansible.builtin.import_role:
+    name: ktooi.crio
+
+- name: Add CRI-O config
+  ansible.builtin.template:
+    src: 02-crio.conf
+    dest: /etc/crio/crio.conf.d/02-crio.conf
+    mode: 0644
+  notify:
+    - Reload CRI-O
+
+- name: Ensure handlers are notified now to avoid unspecified behavior
+  ansible.builtin.meta: flush_handlers

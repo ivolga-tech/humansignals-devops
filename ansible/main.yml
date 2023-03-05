@@ -5,6 +5,10 @@
     - role: common
       become: no
 
+    - role: crio
+      vars:
+        crio_version: "1.25"
+
     - role: geerlingguy.docker
       vars:
         docker_install_compose: no
