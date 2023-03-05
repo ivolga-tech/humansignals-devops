@@ -7,8 +7,6 @@ roles:
     version: 1.33.0
   - name: geerlingguy.helm
     version: master
-  - name: caddy_ansible.caddy_ansible
-    version: v3.2.0
 
 collections:
   - name: kubernetes.core

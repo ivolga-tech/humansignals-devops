@@ -23,5 +23,3 @@
     
     - role: humansignals
       become: no
-
-    - role: caddy

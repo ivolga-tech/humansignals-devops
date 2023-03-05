@@ -1,7 +1,0 @@
-{{ server.host }} {
-{% if not production %}
-  tls internal
-{% endif %}
-
-  reverse_proxy {{ humansignals_ingress_ip }}
-}
