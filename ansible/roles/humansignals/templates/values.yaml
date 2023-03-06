@@ -7,17 +7,15 @@ clickhouse:
 {% if not clickhouse.internal %}
 env:
   - name: KAFKA_URL_FOR_CLICKHOUSE
-    value: "kafka://{{ ansible_host }}:9094"
+    value: "kafka://{{ ansible_host }}:30000"
 
 kafka:
   externalAccess:
     enabled: true
-    autoDiscovery:
-      enabled: true
-  serviceAccount:
-    create: true
-  rbac:
-    create: true
+    service:
+      type: NodePort
+      nodePorts:
+        - 30000
 
 externalClickhouse:
   host: "{{ clickhouse.host }}"
