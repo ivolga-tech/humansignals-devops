@@ -9,6 +9,10 @@
       vars:
         crio_version: "1.25"
 
+    - role: darkwizard242.crictl
+      vars:
+        crictl_version: 1.25.0
+
     - role: geerlingguy.docker
       vars:
         docker_install_compose: no
@@ -23,3 +27,6 @@
     
     - role: humansignals
       become: no
+
+
+
