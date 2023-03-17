@@ -7,6 +7,8 @@ roles:
     version: 1.33.0
   - name: geerlingguy.helm
     version: master
+  - name: darkwizard242.crictl
+    version: 2.1.0
 
 collections:
   - name: kubernetes.core
