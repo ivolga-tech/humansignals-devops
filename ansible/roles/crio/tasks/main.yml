@@ -2,13 +2,27 @@
   ansible.builtin.import_role:
     name: ktooi.crio
 
+- name: Add CNI plugins
+  become: yes
+  ansible.builtin.apt:
+    name: containernetworking-plugins
+    state: latest
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Add CNI plugins
+  become: yes
+  ansible.builtin.dnf:
+    name: containernetworking-plugins
+    state: latest
+  when: ansible_facts['os_family'] == "RedHat"
+
 - name: Add CRI-O config
   ansible.builtin.template:
     src: 02-crio.conf
     dest: /etc/crio/crio.conf.d/02-crio.conf
     mode: 0644
   notify:
-    - Reload CRI-O
+    - Restart CRI-O
 
 - name: Ensure handlers are notified now to avoid unspecified behavior
   ansible.builtin.meta: flush_handlers
