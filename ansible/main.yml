@@ -27,12 +27,3 @@
     
     - role: humansignals
       become: no
-
-    - role: geerlingguy.firewall
-      vars:
-        firewall_flush_rules_and_chains: false
-        firewall_allowed_tcp_ports:
-          - "22"
-          - "80"
-          - "443"
-

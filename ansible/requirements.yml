@@ -9,8 +9,6 @@ roles:
     version: master
   - name: darkwizard242.crictl
     version: 2.1.0
-  - name: geerlingguy.firewall
-    version: 2.5.1
 
 collections:
   - name: kubernetes.core
