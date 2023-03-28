@@ -7,8 +7,16 @@ Requires=docker.socket containerd.service docker.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
+ExecStartPre=+/bin/mkdir -p /tmp/hostpath_pv
+ExecStartPre=+/bin/mkdir -p /tmp/hostpath-provisioner
+ExecStartPre=+/bin/mkdir -p /opt/minikube/hostpath_pv
+ExecStartPre=+/bin/mkdir -p /opt/minikube/hostpath-provisioner
+ExecStartPre=+/bin/mount --bind /opt/minikube/hostpath_pv /tmp/hostpath_pv
+ExecStartPre=+/bin/mount --bind /opt/minikube/hostpath-provisioner /tmp/hostpath-provisioner
 ExecStart=/usr/local/bin/minikube start --driver none --container-runtime cri-o --cni calico --kubernetes-version v1.25.6 --addons ingress
 ExecStop=/usr/local/bin/minikube stop
+ExecStopPost=+/bin/umount /tmp/hostpath-provisioner
+ExecStopPost=+/bin/umount /tmp/hostpath_pv
 User={{ ansible_user }}
 Group={{ ansible_user }}
 
