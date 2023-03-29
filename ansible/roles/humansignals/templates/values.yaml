@@ -1,5 +1,12 @@
+cert-manager:
+  enabled: true
+
 ingress:
+  type: nginx
   hostname: "{{ server.host }}"
+{% if production %}
+  letsencrypt: true
+{% endif %}
 
 clickhouse:
   enabled: {{ clickhouse.internal }}

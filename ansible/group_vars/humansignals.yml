@@ -1,3 +1,5 @@
+production: false
+
 server:
   host: humansignals-sda.ivolga.tech
 
