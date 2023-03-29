@@ -13,6 +13,15 @@
     timeout: 1m
     wait: yes
 
+- name: Get Node information
+  kubernetes.core.k8s_info:
+    kind: Node
+  register: k8s_node_status
+
+- name: Get Node IP
+  ansible.builtin.set_fact:
+    k8s_node_ip: "{{ k8s_node_status.resources[0].status.addresses[0].address }}"
+
 - name: Add address pool
   kubernetes.core.k8s:
     apply: yes
@@ -23,7 +32,7 @@
     resource_definition:
       spec:
         addresses:
-          - "{{ ansible_host }}/32"
+          - "{{ k8s_node_ip }}/32"
 
 - name: Add L2 advertisement
   kubernetes.core.k8s:
