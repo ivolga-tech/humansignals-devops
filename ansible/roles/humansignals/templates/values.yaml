@@ -5,6 +5,8 @@ ingress:
   hostname: "{{ server.host }}"
 {% if production %}
   letsencrypt: true
+{% else %}
+  letsencrypt: false
 {% endif %}
   nginx:
     enabled: true
