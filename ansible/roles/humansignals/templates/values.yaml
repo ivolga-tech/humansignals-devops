@@ -3,11 +3,7 @@ cert-manager:
 
 ingress:
   hostname: "{{ server.host }}"
-{% if production %}
-  letsencrypt: true
-{% else %}
-  letsencrypt: false
-{% endif %}
+  letsencrypt: {{ production }}
   nginx:
     enabled: true
 
