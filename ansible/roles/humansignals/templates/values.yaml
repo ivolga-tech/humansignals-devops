@@ -1,5 +1,11 @@
+web:
+  podAnnotations:
+    prometheus.io/scrape: true
+    prometheus.io/path: /metrics
+    prometheus.io/port: 8001
+
 cert-manager:
-  enabled: true
+  enabled: {{ production }}
 
 ingress:
   hostname: "{{ server.host }}"
@@ -9,12 +15,30 @@ ingress:
 
 ingress-nginx:
   controller:
+    ingressClassResource:
+      default: true
+    metrics:
+      enabled: {{ grafana.enabled }}
+      service:
+        annotations:
+          prometheus.io/scrape: true
+          prometheus.io/port: 10254
     service:
       annotations:
         metallb.universe.tf/allow-shared-ip: single-pool
 
 clickhouse:
   enabled: {{ clickhouse.internal }}
+  settings:
+    prometheus/endpoint: /metrics
+    prometheus/port: 9363
+    prometheus/metrics: true
+    prometheus/events: true
+    prometheus/asynchronous_metrics: true
+  podAnnotations:
+    prometheus.io/scrape: true
+    prometheus.io/path: /metrics
+    prometheus.io/port: 9363
 
 {% if not clickhouse.internal %}
 env:
@@ -38,3 +62,32 @@ externalClickhouse:
   secure: {{ clickhouse.secure }}
   verify: {{ clickhouse.verify }}
 {% endif %}
+
+grafana:
+  enabled: {{ grafana.enabled }}
+  ingress:
+    enabled: {{ grafana.enabled }}
+    hosts:
+      - "{{ grafana.host }}"
+{% if production %}
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/force-ssl-redirect: true
+      nginx.ingress.kubernetes.io/ssl-redirect: true
+    tls:
+      - hosts:
+          - "{{ grafana.host }}"
+      secretName: nginx-letsencrypt-grafana-humansignals
+{% endif %}
+
+prometheus:
+  enabled: true
+
+prometheus-kafka-exporter:
+  enabled: true
+
+prometheus-postgres-exporter:
+  enabled: true
+
+prometheus-redis-exporter:
+  enabled: true

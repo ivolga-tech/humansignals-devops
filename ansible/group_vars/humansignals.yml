@@ -3,6 +3,10 @@ production: false
 server:
   host: humansignals-sda.ivolga.tech
 
+grafana:
+  enabled: true
+  host: grafana.humansignals-sda.ivolga.tech
+
 clickhouse:
   internal: true
   host:
