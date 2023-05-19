@@ -39,6 +39,7 @@ kafka:
 
 clickhouse:
   enabled: {{ clickhouse.internal }}
+  serviceType: "{{ clickhouse.serviceType }}"
   settings:
     prometheus/endpoint: "/metrics"
     prometheus/port: "9363"
