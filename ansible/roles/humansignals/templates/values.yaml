@@ -1,8 +1,8 @@
 web:
   podAnnotations:
-    prometheus.io/scrape: true
-    prometheus.io/path: /metrics
-    prometheus.io/port: 8001
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/metrics"
+    prometheus.io/port: "8001"
 
 cert-manager:
   enabled: {{ production }}
@@ -21,24 +21,24 @@ ingress-nginx:
       enabled: {{ grafana.enabled }}
       service:
         annotations:
-          prometheus.io/scrape: true
-          prometheus.io/port: 10254
+          prometheus.io/scrape: "true"
+          prometheus.io/port: "10254"
     service:
       annotations:
-        metallb.universe.tf/allow-shared-ip: single-pool
+        metallb.universe.tf/allow-shared-ip: "single-pool"
 
 clickhouse:
   enabled: {{ clickhouse.internal }}
   settings:
-    prometheus/endpoint: /metrics
-    prometheus/port: 9363
-    prometheus/metrics: true
-    prometheus/events: true
-    prometheus/asynchronous_metrics: true
+    prometheus/endpoint: "/metrics"
+    prometheus/port: "9363"
+    prometheus/metrics: "true"
+    prometheus/events: "true"
+    prometheus/asynchronous_metrics: "true"
   podAnnotations:
-    prometheus.io/scrape: true
-    prometheus.io/path: /metrics
-    prometheus.io/port: 9363
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/metrics"
+    prometheus.io/port: "9363"
 
 {% if not clickhouse.internal %}
 env:
@@ -71,13 +71,13 @@ grafana:
       - "{{ grafana.host }}"
 {% if production %}
     annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      nginx.ingress.kubernetes.io/force-ssl-redirect: true
-      nginx.ingress.kubernetes.io/ssl-redirect: true
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
     tls:
-      - hosts:
+      - secretName: nginx-letsencrypt-grafana-humansignals
+        hosts:
           - "{{ grafana.host }}"
-      secretName: nginx-letsencrypt-grafana-humansignals
 {% endif %}
 
 prometheus:
