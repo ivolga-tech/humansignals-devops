@@ -13,8 +13,8 @@ kafka:
 
 clickhouse:
   internal: true
-  # If you require non-TLS external access to an internal ClickHouse, use NodePort. Otherwise, use ClusterIP
-  # The external ports would be 30123 for the HTTP API and 30900 for the Native Protocol
+  # If you require non-TLS external access to an internal ClickHouse, use LoadBalancer. Otherwise, use ClusterIP
+  # The external ports would be 8123 for the HTTP API and 9000 for the Native Protocol
   serviceType: ClusterIP
   host:
   cluster:
