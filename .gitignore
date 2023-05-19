@@ -6,4 +6,7 @@ book
 **/charts/*.tgz
 
 ### Ansible ###
-ansible/hosts
+ansible/group_vars/humansignals.*.yml
+
+!ansible/hosts.example
+ansible/hosts*
