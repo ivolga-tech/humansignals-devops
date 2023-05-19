@@ -157,8 +157,10 @@ spec:
           ports:
             - name: http
               port: 8123
-            - name: tcp
+              nodePort: 30123
+            - name: client
               port: 9000
+              nodePort: 30900
           type: {{ .Values.clickhouse.serviceType }}
 
     {{- if and (.Values.clickhouse.persistence.enabled) (not .Values.clickhouse.persistence.existingClaim) }}
