@@ -153,14 +153,15 @@ spec:
     serviceTemplates:
       - name: service-template
         generateName: {{ template "humansignals.clickhouse.fullname" . }}
+        metadata:
+          annotations:
+            metallb.universe.tf/allow-shared-ip: single-pool
         spec:
           ports:
             - name: http
               port: 8123
-              nodePort: 30123
             - name: client
               port: 9000
-              nodePort: 30900
           type: {{ .Values.clickhouse.serviceType }}
 
     {{- if and (.Values.clickhouse.persistence.enabled) (not .Values.clickhouse.persistence.existingClaim) }}
