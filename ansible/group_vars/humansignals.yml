@@ -7,6 +7,10 @@ grafana:
   enabled: true
   host: grafana.humansignals-sda.ivolga.tech
 
+kafka:
+  # Enable non-TLS external access to an internal Kafka cluster at $PUBLIC_IP:30000
+  externalAccess: false
+
 clickhouse:
   internal: true
   host:

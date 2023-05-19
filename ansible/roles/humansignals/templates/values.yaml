@@ -27,6 +27,16 @@ ingress-nginx:
       annotations:
         metallb.universe.tf/allow-shared-ip: "single-pool"
 
+{% if kafka.externalAccess or (not clickhouse.internal) %}
+kafka:
+  externalAccess:
+    enabled: true
+    service:
+      type: NodePort
+      nodePorts:
+        - 30000
+{% endif %}
+
 clickhouse:
   enabled: {{ clickhouse.internal }}
   settings:
@@ -44,14 +54,6 @@ clickhouse:
 env:
   - name: KAFKA_URL_FOR_CLICKHOUSE
     value: "kafka://{{ ansible_host }}:30000"
-
-kafka:
-  externalAccess:
-    enabled: true
-    service:
-      type: NodePort
-      nodePorts:
-        - 30000
 
 externalClickhouse:
   host: "{{ clickhouse.host }}"
