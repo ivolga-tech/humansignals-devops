@@ -20,7 +20,7 @@
   ansible.builtin.template:
     src: 02-crio.conf
     dest: /etc/crio/crio.conf.d/02-crio.conf
-    mode: 0644
+    mode: "0644"
   notify:
     - Restart CRI-O
 
