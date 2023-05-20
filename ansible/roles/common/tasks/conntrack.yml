@@ -1,12 +1,12 @@
 - name: Install conntrack
-  become: yes
+  become: true
   ansible.builtin.apt:
     name: conntrack
     state: latest
   when: ansible_facts['os_family'] == "Debian"
 
 - name: Install conntrack
-  become: yes
+  become: true
   ansible.builtin.dnf:
     name: conntrack-tools
     state: latest

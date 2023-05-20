@@ -5,7 +5,7 @@
     mode: 0644
 
 - name: Install distutils
-  become: yes
+  become: true
   ansible.builtin.apt:
     name: python3-distutils
     state: latest

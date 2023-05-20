@@ -7,11 +7,11 @@
   kubernetes.core.helm:
     chart_ref: metallb/metallb
     chart_version: v0.13.9
-    create_namespace: yes
+    create_namespace: true
     release_name: metallb
     release_namespace: metallb-system
     timeout: 1m
-    wait: yes
+    wait: true
 
 - name: Get Node information
   kubernetes.core.k8s_info:
@@ -24,7 +24,7 @@
 
 - name: Add address pool
   kubernetes.core.k8s:
-    apply: yes
+    apply: true
     api_version: metallb.io/v1beta1
     kind: IPAddressPool
     name: single-pool
@@ -36,7 +36,7 @@
 
 - name: Add L2 advertisement
   kubernetes.core.k8s:
-    apply: yes
+    apply: true
     api_version: metallb.io/v1beta1
     kind: L2Advertisement
     name: empty

@@ -2,9 +2,9 @@
   kubernetes.core.helm:
     chart_ref: oci://ghcr.io/ivolga-tech/humansignals-devops/helm/humansignals
     chart_version: 30.0.0+patch3
-    create_namespace: yes
+    create_namespace: true
     release_name: humansignals
     release_namespace: humansignals
     release_values: "{{ lookup('ansible.builtin.template', 'values.yaml') | ansible.builtin.from_yaml }}"
     timeout: 30m
-    wait: yes
+    wait: true
