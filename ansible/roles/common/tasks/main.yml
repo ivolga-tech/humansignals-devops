@@ -4,3 +4,4 @@
     - pip.yml
     - python_dependencies.yml
     - conntrack.yml
+    - bash_aliases.yml

@@ -1,0 +1,70 @@
+# https://github.com/dwertent/alias-kubectl/blob/521152d2c9efa5856296e30e041729b3fd7f0b02/kubectl_aliases
+
+- alias: k
+  command: minikube kubectl -- -n humansignals
+- alias: kl
+  command: k logs
+- alias: kexec
+  command: k exec -it
+
+- alias: kg
+  command: k get
+- alias: kgd
+  command: kg deploy
+- alias: kgp
+  command: kg pod
+- alias: kgcj
+  command: kg cronjob
+- alias: kgj
+  command: kg job
+- alias: kgcm
+  command: kg configmap
+- alias: kgs
+  command: kg secrets
+- alias: kgsvc
+  command: kg service
+
+- alias: kd
+  command: k describe
+- alias: kdd
+  command: kd deploy
+- alias: kdp
+  command: kd pod
+- alias: kdcj
+  command: kd cronjob
+- alias: kdj
+  command: kd job
+- alias: kdcm
+  command: kd configmap
+- alias: kds
+  command: kd secrets
+- alias: kdsvc
+  command: kd service
+
+- alias: ke
+  command: k edit
+- alias: ked
+  command: ke deploy
+- alias: kecm
+  command: ke configmap
+- alias: kes
+  command: ke secrets
+- alias: kesvc
+  command: ke service
+
+- alias: kdel
+  command: k delete
+- alias: kdeld
+  command: kdel deploy
+- alias: kdelp
+  command: kdel pod
+- alias: kdelcj
+  command: kdel cronjob
+- alias: kdelj
+  command: kdel job
+- alias: kdelcm
+  command: kdel configmap
+- alias: kdels
+  command: kdel secrets
+- alias: kdelsvc
+  command: kdel service

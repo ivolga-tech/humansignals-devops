@@ -1,0 +1,11 @@
+- name: Configure bash aliases
+  ansible.builtin.lineinfile:
+    path: ~/.bash_aliases
+    create: true
+    mode: "0644"
+    line: 'alias {{ aliases.alias }}="{{ aliases.command }}"'
+    regexp: "^alias {{ aliases.alias }}="
+  loop: "{{ lookup('ansible.builtin.file', 'bash_aliases.yml') | ansible.builtin.from_yaml }}"
+  loop_control:
+    loop_var: aliases
+  become: false
