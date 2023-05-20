@@ -18,9 +18,10 @@
 
     - role: minikube
 
-    - role: geerlingguy.helm
+    - role: helm
       vars:
         helm_version: v3.11.1
+        helm_diff_version: v3.8.0
 
     - role: humansignals
       become: false
