@@ -8,7 +8,8 @@ grafana:
   host: grafana.humansignals-sda.ivolga.tech
 
 kafka:
-  # Enable non-TLS external access to an internal Kafka cluster at $PUBLIC_IP:30000
+  # Enable non-TLS external access to an internal Kafka
+  # The external port would be 9094 for the Kafka Clients
   externalAccess: false
 
 clickhouse:

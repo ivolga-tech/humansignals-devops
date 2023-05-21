@@ -1,5 +1,6 @@
 - name: Include HumanSignals tasks
   ansible.builtin.include_tasks: "{{ item }}"
   loop:
+    - public_ip.yml
     - metallb.yml
     - humansignals.yml

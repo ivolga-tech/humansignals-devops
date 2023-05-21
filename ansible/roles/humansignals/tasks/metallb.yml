@@ -33,6 +33,7 @@
       spec:
         addresses:
           - "{{ k8s_node_ip }}/32"
+          - "{{ ipify_public_ip }}/32"
 
 - name: Add L2 advertisement
   kubernetes.core.k8s:

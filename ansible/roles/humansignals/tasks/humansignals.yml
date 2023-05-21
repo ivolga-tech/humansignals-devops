@@ -8,3 +8,13 @@
     release_values: "{{ lookup('ansible.builtin.template', 'values.yaml') | ansible.builtin.from_yaml }}"
     timeout: 30m
     wait: true
+
+- name: Fix kafka external service
+  kubernetes.core.k8s:
+    apply: true
+    kind: Service
+    name: humansignals-humansignals-kafka-0-external
+    namespace: humansignals
+    resource_definition:
+      spec:
+        loadBalancerIP: "{{ k8s_node_ip }}"

@@ -25,16 +25,17 @@ ingress-nginx:
           prometheus.io/port: "10254"
     service:
       annotations:
-        metallb.universe.tf/allow-shared-ip: "single-pool"
+        metallb.universe.tf/allow-shared-ip: single-pool
 
 {% if kafka.externalAccess or (not clickhouse.internal) %}
 kafka:
   externalAccess:
     enabled: true
     service:
-      type: NodePort
-      nodePorts:
-        - 30000
+      annotations:
+        metallb.universe.tf/allow-shared-ip: single-pool
+      loadBalancerIPs:
+        - "{{ ipify_public_ip }}"
 {% endif %}
 
 clickhouse:
@@ -54,7 +55,7 @@ clickhouse:
 {% if not clickhouse.internal %}
 env:
   - name: KAFKA_URL_FOR_CLICKHOUSE
-    value: "kafka://{{ ansible_host }}:30000"
+    value: "kafka://{{ ipify_public_ip }}:9094"
 
 externalClickhouse:
   host: "{{ clickhouse.host }}"
@@ -74,7 +75,7 @@ grafana:
       - "{{ grafana.host }}"
 {% if production %}
     annotations:
-      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
     tls:
