@@ -1,6 +1,6 @@
 roles:
   - name: ktooi.crio
-    version: 1.2.0
+    version: 1.2.1
   - name: darkwizard242.crictl
     version: 2.1.0
   - name: geerlingguy.docker
