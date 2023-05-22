@@ -18,3 +18,4 @@
     resource_definition:
       spec:
         loadBalancerIP: "{{ k8s_node_ip }}"
+  when: kafka.externalAccess
