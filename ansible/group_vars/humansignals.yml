@@ -1,5 +1,7 @@
 production: false
 
+timeZone: Europe/Moscow
+
 server:
   host: humansignals-sda.ivolga.tech
 
