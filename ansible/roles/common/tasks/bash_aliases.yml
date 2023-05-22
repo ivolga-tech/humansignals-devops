@@ -8,4 +8,3 @@
   loop: "{{ lookup('ansible.builtin.file', 'bash_aliases.yml') | ansible.builtin.from_yaml }}"
   loop_control:
     loop_var: aliases
-  become: false

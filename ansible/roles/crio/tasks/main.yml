@@ -3,14 +3,12 @@
     name: ktooi.crio
 
 - name: Add CNI plugins
-  become: true
   ansible.builtin.apt:
     name: containernetworking-plugins
     state: latest
   when: ansible_facts['os_family'] == "Debian"
 
 - name: Add CNI plugins
-  become: true
   ansible.builtin.dnf:
     name: containernetworking-plugins
     state: latest
