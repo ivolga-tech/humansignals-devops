@@ -5,4 +5,4 @@
     - python_dependencies.yml
     - conntrack.yml
     - bash_aliases.yml
-    - time_zone.yml
+    - timezone.yml

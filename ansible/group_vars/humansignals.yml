@@ -1,9 +1,10 @@
 production: false
 
-timeZone: Europe/Moscow
-
 server:
   host: humansignals-sda.ivolga.tech
+  # You can find a comprehensive list of timezones here: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  # Additionally, systemd provides the `timedatectl list-timezones` command, which outputs an identical list as mentioned above
+  timezone: Europe/Moscow
 
 grafana:
   enabled: true
