@@ -29,3 +29,9 @@ clickhouse:
   secure: true
   # Whether to verify TLS certificate
   verify: true
+
+jupyterhub:
+  enabled: false
+  host: jupyterhub.humansignals-sda.ivolga.tech
+  user: admin
+  password: ivolga

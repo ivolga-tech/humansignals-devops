@@ -1,0 +1,15 @@
+- name: Add Jupyterhub chart repo
+  kubernetes.core.helm_repository:
+    name: jupyterhub
+    repo_url: https://hub.jupyter.org/helm-chart/
+
+- name: Install Jupyterhub
+  kubernetes.core.helm:
+    chart_ref: jupyterhub/jupyterhub
+    chart_version: 3.0.3
+    create_namespace: true
+    release_name: jupyterhub
+    release_namespace: jupyterhub
+    release_values: "{{ lookup('ansible.builtin.template', 'values.yaml') | ansible.builtin.from_yaml }}"
+    timeout: 3m
+    wait: true

@@ -1,0 +1,33 @@
+proxy:
+  service:
+    type: ClusterIP
+
+ingress:
+  enabled: true
+  hosts:
+    - "{{ jupyterhub.host }}"
+  annotations:
+{% if production %}
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+{% else %}
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+{% endif %}
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  tls:
+    - hosts:
+        - "{{ jupyterhub.host }}"
+      secretName: nginx-letsencrypt-jupyter-humansignals
+
+hub:
+  config:
+    Authenticator:
+      admin_users:
+        - "{{ jupyterhub.user }}"
+      allowed_users:
+        - "{{ jupyterhub.user }}"
+
+    DummyAuthenticator:
+      password: "{{ jupyterhub.password }}"
+    JupyterHub:
+      authenticator_class: dummy

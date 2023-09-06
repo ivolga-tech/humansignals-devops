@@ -26,3 +26,8 @@
     - role: humansignals
       become: false
       tags: humansignals
+
+    - role: jupyterhub
+      become: false
+      tags: jupyterhub
+      when: jupyterhub.enabled
