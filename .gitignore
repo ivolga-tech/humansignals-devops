@@ -11,3 +11,6 @@ ansible/group_vars/humansignals*
 
 !ansible/hosts.example
 ansible/hosts*
+
+### IDE ###
+.idea
