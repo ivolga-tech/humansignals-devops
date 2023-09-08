@@ -6,18 +6,16 @@ ingress:
   enabled: true
   hosts:
     - "{{ jupyterhub.host }}"
-  annotations:
 {% if production %}
+  annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
-{% else %}
-    cert-manager.io/cluster-issuer: letsencrypt-staging
-{% endif %}
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
   tls:
-    - hosts:
+    - secretName: nginx-letsencrypt-jupyter-humansignals
+      hosts:
         - "{{ jupyterhub.host }}"
-      secretName: nginx-letsencrypt-jupyter-humansignals
+{% endif %}
 
 hub:
   config:
