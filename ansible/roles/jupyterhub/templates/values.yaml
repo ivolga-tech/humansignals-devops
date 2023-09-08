@@ -26,7 +26,6 @@ hub:
         - "{{ jupyterhub.user }}"
       allowed_users:
         - "{{ jupyterhub.user }}"
-
     DummyAuthenticator:
       password: "{{ jupyterhub.password }}"
     JupyterHub:
