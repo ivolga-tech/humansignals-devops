@@ -15,6 +15,7 @@ APP VERSION: {{ .Chart.AppVersion }}
     mind to review the service security posture (example: use unique credentials,
     restrict network access to a range of IPs, use TLS, etc...).
 
+
 -------------------------------------------------------------------------------
 {{- end }}
 

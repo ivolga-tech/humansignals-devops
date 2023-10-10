@@ -185,6 +185,6 @@ tests:
           count: 1
       - equal:
           path: spec.template.spec.imagePullSecrets
-          value:
-            - name: main
-            - name: exporter
+          value: 
+          - name: main
+          - name: exporter

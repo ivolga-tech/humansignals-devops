@@ -1,4 +1,4 @@
-{{/* Common email ENV variables and helpers used by HumanSignals */}}
+{{/* Common email ENV variables and helpers used by humansignals */}}
 
 {{/* ENV used by humansignals deployments for connecting to smtp */}}
 {{- define "snippet.email-env" }}

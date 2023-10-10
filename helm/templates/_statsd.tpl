@@ -1,4 +1,4 @@
-{{/* Common statsd ENV variables and helpers used by HumanSignals */}}
+{{/* Common statsd ENV variables and helpers used by humansignals */}}
 
 {{/* Return the statsd service host */}}
 {{- define "humansignals.statsd.host" -}}
@@ -18,7 +18,7 @@
 {{- end -}}
 {{- end -}}
 
-{{/* ENV used by HumanSignals deployments for configuring statsd */}}
+{{/* ENV used by humansignals deployments for configuring statsd */}}
 {{- define "snippet.statsd-env" }}
 {{- if or (index .Values "prometheus-statsd-exporter" "enabled") (and (.Values.externalStatsd.host) (.Values.externalStatsd.port)) }}
 - name: STATSD_HOST

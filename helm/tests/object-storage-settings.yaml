@@ -36,11 +36,16 @@ tests:
       - notContains:
           path: spec.template.spec.containers[0].env
           content:
+            name: OBJECT_STORAGE_REGION
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
             name: OBJECT_STORAGE_ACCESS_KEY_ID
       - notContains:
           path: spec.template.spec.containers[0].env
           content:
             name: OBJECT_STORAGE_SECRET_ACCESS_KEY
+
 
   - it: should use the correct variables when `minio.enabled` is `true`
     templates: # TODO: remove once secrets.yaml will be fixed/removed
@@ -78,6 +83,7 @@ tests:
           content:
             name: OBJECT_STORAGE_SECRET_ACCESS_KEY
             value: root-password-change-me-please
+
 
   - it: should use the correct variables when `minio.enabled` is `true` and `minio.auth.existingSecret` is used
     templates: # TODO: remove once secrets.yaml will be fixed/removed
@@ -136,6 +142,7 @@ tests:
         host: host_name
         port: "12345"
         bucket: bucket_name
+        region: bucket_region
         existingSecret: existing_secret
     asserts:
       - contains:
@@ -153,6 +160,11 @@ tests:
           content:
             name: OBJECT_STORAGE_BUCKET
             value: bucket_name
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: OBJECT_STORAGE_REGION
+            value: bucket_region
       - contains:
           path: spec.template.spec.containers[0].env
           content:

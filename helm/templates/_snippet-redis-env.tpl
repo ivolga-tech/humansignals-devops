@@ -14,5 +14,12 @@
       name: {{ include "humansignals.redis.secretName" . }}
       key: {{ include "humansignals.redis.secretPasswordKey" . }}
 {{- end }}
+{{- end }}
 
+{{- define "snippet.session-recording-redis-env" }}
+- name: POSTHOG_SESSION_RECORDING_REDIS_HOST
+  value: {{ include "humansignals.sessionRecordingRedis.host" . }}
+
+- name: POSTHOG_SESSION_RECORDING_REDIS_PORT
+  value: {{ include "humansignals.sessionRecordingRedis.port" . }}
 {{- end }}

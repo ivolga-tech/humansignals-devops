@@ -28,7 +28,7 @@
   # ClickHouse env variables
   {{- include "snippet.clickhouse-env" . | nindent 2 }}
 
-  # HumanSignals app settings
+  # humansignals app settings
   {{- include "snippet.humansignals-env" . | nindent 2 }}
   {{- include "snippet.humansignals-sentry-env" . | nindent 2 }}
 

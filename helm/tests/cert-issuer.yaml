@@ -120,7 +120,7 @@ tests:
 
   - it: should have given notification email address for let's encrypt
     set:
-      notificationEmail: jams@humansignals.com
+      notificationEmail: jams@humansignals.com 
       ingress.hostname: humansignals.cc
       ingress.letsencrypt: true
     asserts:
@@ -132,7 +132,7 @@ tests:
 
   - it: should have given ingress email address for let's encrypt
     set:
-      notificationEmail: jams@humansignals.com
+      notificationEmail: jams@humansignals.com 
       ingress.hostname: humansignals.cc
       cert-manager.email: james.g@humansignals.com
       ingress.letsencrypt: true
@@ -142,3 +142,4 @@ tests:
       - equal:
           path: spec.acme.email
           value: "james.g@humansignals.com"
+  

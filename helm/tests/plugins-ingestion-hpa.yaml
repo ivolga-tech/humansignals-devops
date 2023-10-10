@@ -48,7 +48,7 @@ tests:
       - hasDocuments:
           count: 2
       - isAPIVersion:
-          of: autoscaling/v2beta2
+          of: autoscaling/v2
         documentIndex: 1
 
   - it: should be the correct kind
@@ -91,12 +91,12 @@ tests:
             minReplicas: 2
             maxReplicas: 10
             metrics:
-              - type: Resource
-                resource:
-                  name: cpu
-                  target:
-                    type: Utilization
-                    averageUtilization: 70
+            - type: Resource
+              resource:
+                name: cpu
+                target:
+                  type: Utilization
+                  averageUtilization: 70
             behavior:
               scaleDown:
                 stabilizationWindowSeconds: 3600

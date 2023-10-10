@@ -1,4 +1,4 @@
-{{/* Common HumanSignals definitions */}}
+{{/* Common humansignals definitions */}}
 
 {{- define "humansignals.humansignalsSecretKey.existingSecret" }}
   {{- if .Values.humansignalsSecretKey.existingSecret -}}

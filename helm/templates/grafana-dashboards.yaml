@@ -9,7 +9,7 @@ metadata:
   labels:
     {{ $.Values.grafana.sidecar.dashboards.label }}: "1"
   annotations:
-    {{ $.Values.grafana.sidecar.dashboards.folderAnnotation }}: "HumanSignals"
+    {{ $.Values.grafana.sidecar.dashboards.folderAnnotation }}: "humansignals"
 data:
   {{ $filename }}: |-
 {{ $.Files.Get $path | indent 4 }}

@@ -1,4 +1,4 @@
-suite: HumanSignals web deployment definition
+suite: humansignals web deployment definition
 templates:
   - templates/web-deployment.yaml
   - templates/secrets.yaml
@@ -122,6 +122,7 @@ tests:
             name: SENTRY_DSN
             value: sentry.endpoint
 
+
   - it: allows setting imagePullSecrets
     template: templates/web-deployment.yaml # TODO: remove once secrets.yaml will be fixed/removed
     set:
@@ -133,3 +134,36 @@ tests:
       - equal:
           path: spec.template.spec.imagePullSecrets
           value: [name: secret]
+
+  - it: allows setting pgbouncer read env
+    template: templates/web-deployment.yaml # TODO: remove once secrets.yaml will be fixed/removed
+    set:
+      cloud: local
+      image.pullSecrets: [secret]
+      pgbouncerRead:
+        enabled: true
+        host: beep-boop
+    asserts:
+      - hasDocuments:
+          count: 1
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: POSTHOG_POSTGRES_READ_HOST
+            value: RELEASE-NAME-humansignals-pgbouncer-read
+
+  - it: do not set postgres read host unless configured
+    template: templates/web-deployment.yaml # TODO: remove once secrets.yaml will be fixed/removed
+    set:
+      cloud: local
+      image.pullSecrets: [secret]
+      pgbouncerRead:
+        host: beep-boop
+    asserts:
+      - hasDocuments:
+          count: 1
+      - notContains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: POSTHOG_POSTGRES_READ_HOST
+            value: beep-boop

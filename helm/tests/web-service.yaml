@@ -1,4 +1,4 @@
-suite: HumanSignals web service definition
+suite: humansignals web service definition
 templates:
   - templates/web-service.yaml
 

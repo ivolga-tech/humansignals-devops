@@ -23,7 +23,7 @@ https://{{- .Values.externalObjectStorage.host -}}:{{- .Values.externalObjectSto
 {{- end -}}
 {{- end -}}
 
-{{/* Common Object Storage ENV variables and helpers used by HumanSignals */}}
+{{/* Common Object Storage ENV variables and helpers used by humansignals */}}
 {{- define "snippet.objectstorage-env" }}
 
 {{/* MINIO */}}
@@ -64,6 +64,8 @@ https://{{- .Values.externalObjectStorage.host -}}:{{- .Values.externalObjectSto
   value: {{ include "humansignals.externalObjectStorage.endpoint" . }}
 - name: OBJECT_STORAGE_BUCKET
   value: {{ .Values.externalObjectStorage.bucket }}
+- name: OBJECT_STORAGE_REGION
+  value: {{ .Values.externalObjectStorage.region }}
 - name: OBJECT_STORAGE_ACCESS_KEY_ID
   valueFrom:
     secretKeyRef:

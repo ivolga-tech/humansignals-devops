@@ -14,6 +14,13 @@ spec:
   {{- if not .Values.events.hpa.enabled }}
   replicas: {{ .Values.events.replicacount }}
   {{- end }}
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: {{ .Values.events.rollout.maxSurge }}
+      maxUnavailable: {{ .Values.events.rollout.maxUnavailable }}
+
   template:
     metadata:
       annotations:
@@ -102,7 +109,7 @@ spec:
         - name: SECURE_COOKIES
           value: '0'
       {{- end }}
-        # HumanSignals app settings
+        # humansignals app settings
         {{- include "snippet.humansignals-env" . | indent 8 }}
         {{- include "snippet.humansignals-sentry-env" . | indent 8 }}
         - name: PRIMARY_DB
@@ -113,7 +120,9 @@ spec:
 {{- if .Values.env }}
 {{ toYaml .Values.env | indent 8 }}
 {{- end }}
-{{- if .Values.web.env }}
+{{- if .Values.events.env }}
+{{ toYaml .Values.events.env | indent 8 }}
+{{- else if .Values.web.env }}
 {{ toYaml .Values.web.env | indent 8 }}
 {{- end }}
 
@@ -143,10 +152,10 @@ spec:
           timeoutSeconds: {{ .Values.web.readinessProbe.timeoutSeconds }}
         startupProbe:
           httpGet:
-            # For startup, we want to make sure that everything is in place,
-            # including postgres. This does however mean we would not be able to
-            # deploy new releases when we have a postgres outage
-            path: /_readyz
+            # Now that capture's only external dependency is Kafka, let's use the
+            # reduced readiness check as its startupProbe. This means that we can
+            # deploy new configs / versions even when Postgres and Redis are down.
+            path: /_readyz?role=events
             port: {{ .Values.service.internalPort }}
             scheme: HTTP
           failureThreshold: {{ .Values.web.startupProbe.failureThreshold }}

@@ -9,7 +9,7 @@
 This Helm chart bootstraps a [HumanSignals](https://humansignals.ru) installation on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
 ## Prerequisites
-- Kubernetes >=1.23 <= 1.25
+- Kubernetes >=1.24 <= 1.26
 - Helm >= 3.7.0
 
 ## Development

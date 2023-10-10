@@ -1,4 +1,4 @@
-suite: HumanSignals worker deployment definition
+suite: humansignals worker deployment definition
 templates:
   - templates/worker-deployment.yaml
   - templates/secrets.yaml
@@ -101,6 +101,18 @@ tests:
           content:
             name: SENTRY_DSN
             value: sentry.endpoint
+
+  - it: sets PROM_PUSHGATEWAY_ADDRESS env var when available
+    template: templates/worker-deployment.yaml # TODO: remove once secrets.yaml will be fixed/removed
+    set:
+      cloud: local # TODO: remove once secrets.yaml will be fixed/removed
+      prometheus-pushgateway.enabled: true
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: PROM_PUSHGATEWAY_ADDRESS
+            value: "humansignals-prometheus-pushgateway:9091"
 
   - it: allows setting imagePullSecrets
     template: templates/worker-deployment.yaml # TODO: remove once secrets.yaml will be fixed/removed

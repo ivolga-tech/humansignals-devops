@@ -20,14 +20,14 @@
 
     - role: helm
       vars:
-        helm_version: v3.12.0
+        helm_version: v3.7.0
         helm_diff_version: v3.8.0
 
-    - role: humansignals
-      become: false
-      tags: humansignals
+    # - role: humansignals
+    #   become: false
+    #   tags: humansignals
 
-    - role: jupyterhub
-      become: false
-      tags: jupyterhub
-      when: jupyterhub.enabled
+    # - role: jupyterhub
+    #   become: false
+    #   tags: jupyterhub
+    #   when: jupyterhub.enabled

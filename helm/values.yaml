@@ -16,7 +16,7 @@ image:
   # -- HumanSignals image tag to use (example: `release-1.42.0`).
   tag:
   # -- HumanSignals default image. Do not overwrite, use `image.sha` or `image.tag` instead.
-  default: ":release-1.42.0"
+  default: ":release-1.43.0"
   # -- HumanSignals image pull policy.
   pullPolicy: IfNotPresent
   ## Optionally specify an array of imagePullSecrets.
@@ -71,10 +71,110 @@ events:
     # for configuration options
     behavior:
 
+  rollout:
+    # The max surge in pods during a rollout
+    maxSurge: 25%
+    # The max unavailable during a rollout
+    maxUnavailable: 25%
+
+  # -- Additional env variables to inject into the events stack, uses `web.env` if empty.
+  env: []
+
   # -- Container security context for the events stack HorizontalPodAutoscaler.
   securityContext:
     enabled: false
   # -- Pod security context for the events stack HorizontalPodAutoscaler.
+  podSecurityContext:
+    enabled: false
+
+recordings:
+  # -- Whether to install the HumanSignals recordings stack or not.
+  enabled: false
+  # -- Whether to route /s traffic to the recordings stack instead of the events stack
+  ingressEnabled: false
+
+  # -- Count of recordings pods to run. This setting is ignored if `recordings.hpa.enabled` is set to `true`.
+  replicacount: 1
+
+  hpa:
+    # -- Whether to create a HorizontalPodAutoscaler for the recordings stack.
+    enabled: false
+    # -- CPU threshold percent for the recordings stack HorizontalPodAutoscaler.
+    cputhreshold: 60
+    # -- Min pods for the recordings stack HorizontalPodAutoscaler.
+    minpods: 1
+    # -- Max pods for the recordings stack HorizontalPodAutoscaler.
+    maxpods: 10
+    # -- Set the HPA behavior. See
+    # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+    # for configuration options
+    behavior:
+
+  rollout:
+    # The max surge in pods during a rollout
+    maxSurge: 25%
+    # The max unavailable during a rollout
+    maxUnavailable: 25%
+
+  # -- Additional env variables to inject into the recordings stack, uses `web.env` if empty.
+  env: []
+
+  # -- Container security context for the recordings stack HorizontalPodAutoscaler.
+  securityContext:
+    enabled: false
+  # -- Pod security context for the recordings stack HorizontalPodAutoscaler.
+  podSecurityContext:
+    enabled: false
+
+# The majority of the capture config + chart resides in HumanSignals/charts
+capture:
+  ingress:
+    enabled: false
+    service: 
+      name: capture
+      port: 3000
+
+decide:
+  # -- Whether to install the HumanSignals decide stack or not.
+  enabled: false
+  ingressEnabled: false
+
+  # -- Count of decide pods to run. This setting is ignored if `decide.hpa.enabled` is set to `true`.
+  replicacount: 1
+
+  hpa:
+    # -- Whether to create a HorizontalPodAutoscaler for the decide stack.
+    enabled: false
+    # -- CPU threshold percent for the decide stack HorizontalPodAutoscaler.
+    cputhreshold: 60
+    # -- Min pods for the decide stack HorizontalPodAutoscaler.
+    minpods: 1
+    # -- Max pods for the decide stack HorizontalPodAutoscaler.
+    maxpods: 10
+    # -- Set the HPA behavior. See
+    # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+    # for configuration options
+    behavior:
+
+  pdb:
+    # -- Whether to create a PodDisruptionBudget for the decide stack.
+    enabled: true
+    # -- Maximum number of decide pods that can be unavailable at any time
+    maxUnavailable: 1
+
+  rollout:
+    # The max surge in pods during a rollout
+    maxSurge: 25%
+    # The max unavailable during a rollout
+    maxUnavailable: 25%
+
+  # -- Additional env variables to inject into the decide stack, uses `web.env` if empty.
+  env: []
+
+  # -- Container security context for the decide stack HorizontalPodAutoscaler.
+  securityContext:
+    enabled: false
+  # -- Pod security context for the decide stack HorizontalPodAutoscaler.
   podSecurityContext:
     enabled: false
 
@@ -104,6 +204,12 @@ web:
     # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
     # for configuration options
     behavior:
+
+  rollout:
+    # The max surge in pods during a rollout
+    maxSurge: 25%
+    # The max unavailable during a rollout
+    maxUnavailable: 25%
 
   # -- Resource limits for web service.
   resources: {}
@@ -188,6 +294,12 @@ worker:
     # for configuration options
     behavior:
 
+  rollout:
+    # The max surge in pods during a rollout
+    maxSurge: 25%
+    # The max unavailable during a rollout
+    maxUnavailable: 25%
+
   # -- Additional env variables to inject into the worker stack deployment.
   env: []
 
@@ -232,6 +344,12 @@ plugins:
     # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
     # for configuration options
     behavior:
+
+  rollout:
+    # The max surge in pods during a rollout
+    maxSurge: 25%
+    # The max unavailable during a rollout
+    maxUnavailable: 25%
 
   # -- Additional env variables to inject into the plugin-server stack deployment.
   env: []
@@ -302,6 +420,12 @@ pluginsAsync:
     # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
     # for configuration options
     behavior:
+
+  rollout:
+    # The max surge in pods during a rollout
+    maxSurge: 25%
+    # The max unavailable during a rollout
+    maxUnavailable: 25%
 
   # -- Additional env variables to inject into the plugin-server stack deployment.
   env: []
@@ -378,6 +502,238 @@ pluginsIngestion:
     # for configuration options
     behavior:
 
+  rollout:
+    # The max surge in pods during a rollout
+    maxSurge: 25%
+    # The max unavailable during a rollout
+    maxUnavailable: 25%
+
+  # -- Additional env variables to inject into the plugin-server stack deployment.
+  env:
+    - name: INGESTION_OVERFLOW_ENABLED
+      # -- Whether or not to send events to a "slow-lane" to be consumed
+      # separately by the pluginsIngestionOverflow deployment. When setting this
+      # to true, you must set pluginsIngestionOverflow.enabled to `true``
+      # otherwise some events will not be processed in cases of overflow. This
+      # behaviour is triggered for instance if there are too many events to be
+      # processed in near real time from a single device.
+      value: "false"
+
+  # -- Resource limits for the plugin-server stack deployment.
+  resources: {}
+
+  # -- Node labels for the plugin-server stack deployment.
+  nodeSelector: {}
+  # -- Toleration labels for the plugin-server stack deployment.
+  tolerations: []
+  # -- Affinity settings for the plugin-server stack deployment.
+  affinity: {}
+
+  # -- Container security context for the plugin-server stack deployment.
+  securityContext:
+    enabled: false
+  # -- Pod security context for the plugin-server stack deployment.
+  podSecurityContext:
+    enabled: false
+
+  livenessProbe:
+    # -- The liveness probe failure threshold
+    failureThreshold: 3
+    # -- The liveness probe initial delay seconds
+    initialDelaySeconds: 10
+    # -- The liveness probe period seconds
+    periodSeconds: 10
+    # -- The liveness probe success threshold
+    successThreshold: 1
+    # -- The liveness probe timeout seconds
+    timeoutSeconds: 2
+
+  readinessProbe:
+    # -- The readiness probe failure threshold
+    failureThreshold: 3
+    # -- The readiness probe initial delay seconds
+    initialDelaySeconds: 50
+    # -- The readiness probe period seconds
+    periodSeconds: 30
+    # -- The readiness probe success threshold
+    successThreshold: 1
+    # -- The readiness probe timeout seconds
+    timeoutSeconds: 5
+
+  # -- Sentry endpoint to send errors to. Falls back to global sentryDSN
+  sentryDSN:
+
+pluginsAnalyticsIngestion:
+  # -- Whether to install the HumanSignals plugin-server analytics ingestion
+  # capability as an individual workload. Note that this is different from the
+  # `pluginsIngestion` setting above specifically in that the deployment
+  # controlled by these settings does not handle session recordings. This
+  # deployment is intended to be a replacement for `pluginsIngestion` and is
+  # intended to be used along side the `recordingsIngestion` deployment.
+  #
+  # The reason these values were added is to be able to scale analytics and
+  # session recordings events indepentently, and to be able to roll this out in
+  # a backwards compatible way.
+  enabled: false
+
+  # -- Count of plugin-server pods to run. This setting is ignored if
+  # `pluginsAnalyticsIngestion.hpa.enabled` is set to `true`.
+  replicacount: 1
+
+  hpa:
+    # -- Whether to create a HorizontalPodAutoscaler for the plugin stack.
+    enabled: false
+    # -- CPU threshold percent for the plugin-server stack HorizontalPodAutoscaler.
+    cputhreshold: 60
+    # -- Min pods for the plugin-server stack HorizontalPodAutoscaler.
+    minpods: 1
+    # -- Max pods for the plugin-server stack HorizontalPodAutoscaler.
+    maxpods: 10
+    # -- Set the HPA behavior. See
+    # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+    # for configuration options
+    behavior:
+
+  rollout:
+    # The max surge in pods during a rollout
+    maxSurge: 25%
+    # The max unavailable during a rollout
+    maxUnavailable: 25%
+
+  # -- Additional env variables to inject into the plugin-server stack deployment.
+  env:
+    - name: INGESTION_OVERFLOW_ENABLED
+      # -- Whether or not to send events to a "slow-lane" to be consumed
+      # separately by the pluginsIngestionOverflow deployment. When setting this
+      # to true, you must set pluginsIngestionOverflow.enabled to `true``
+      # otherwise some events will not be processed in cases of overflow. This
+      # behaviour is triggered for instance if there are too many events to be
+      # processed in near real time from a single device.
+      value: "false"
+
+  # -- Resource limits for the plugin-server stack deployment.
+  resources: {}
+
+  # -- Node labels for the plugin-server stack deployment.
+  nodeSelector: {}
+  # -- Toleration labels for the plugin-server stack deployment.
+  tolerations: []
+  # -- Affinity settings for the plugin-server stack deployment.
+  affinity: {}
+
+  # -- Container security context for the plugin-server stack deployment.
+  securityContext:
+    enabled: false
+  # -- Pod security context for the plugin-server stack deployment.
+  podSecurityContext:
+    enabled: false
+
+  livenessProbe:
+    # -- The liveness probe failure threshold
+    failureThreshold: 3
+    # -- The liveness probe initial delay seconds
+    initialDelaySeconds: 10
+    # -- The liveness probe period seconds
+    periodSeconds: 10
+    # -- The liveness probe success threshold
+    successThreshold: 1
+    # -- The liveness probe timeout seconds
+    timeoutSeconds: 2
+
+  readinessProbe:
+    # -- The readiness probe failure threshold
+    failureThreshold: 3
+    # -- The readiness probe initial delay seconds
+    initialDelaySeconds: 50
+    # -- The readiness probe period seconds
+    periodSeconds: 30
+    # -- The readiness probe success threshold
+    successThreshold: 1
+    # -- The readiness probe timeout seconds
+    timeoutSeconds: 5
+
+  # -- Sentry endpoint to send errors to. Falls back to global sentryDSN
+  sentryDSN:
+
+pluginsIngestionOverflow:
+  # -- Whether to install the HumanSignals plugin-server ingestion overflow
+  # capability as an individual workload.
+  enabled: false
+
+  # -- Count of plugin-server overflow pods to run. This setting is ignored if
+  # `pluginsIngestionOverflow.hpa.enabled` is set to `true`.
+  replicacount: 1
+
+  hpa:
+    # -- Whether to create a HorizontalPodAutoscaler for the plugin stack.
+    enabled: false
+    # -- CPU threshold percent for the plugin-server stack HorizontalPodAutoscaler.
+    cputhreshold: 60
+    # -- Min pods for the plugin-server stack HorizontalPodAutoscaler.
+    minpods: 1
+    # -- Max pods for the plugin-server stack HorizontalPodAutoscaler.
+    maxpods: 10
+    # -- Set the HPA behavior. See
+    # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+    # for configuration options
+    behavior:
+
+  # -- Sentry endpoint to send errors to. Falls back to global sentryDSN
+  sentryDSN:
+
+recordingsIngestion:
+  # -- Whether to install the HumanSignals session recordings ingestion capability as
+  # an individual workload.
+  enabled: false
+
+  # -- Count of plugin-server pods to run. This setting is ignored if `recordingsIngestion.hpa.enabled` is set to `true`.
+  replicacount: 1
+
+  hpa:
+    # -- Whether to create a HorizontalPodAutoscaler for the plugin stack.
+    enabled: false
+    # -- CPU threshold percent for the plugin-server stack HorizontalPodAutoscaler.
+    cputhreshold: 60
+    # -- Min pods for the plugin-server stack HorizontalPodAutoscaler.
+    minpods: 1
+    # -- Max pods for the plugin-server stack HorizontalPodAutoscaler.
+    maxpods: 10
+    # -- Set the HPA behavior. See
+    # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+    # for configuration options
+    behavior:
+
+  keda:
+    # -- Whether to create a ScaleObject to handle scaling of the consumer group
+    # deployment using KEDA. `hpa.enabled` must be false to use this. We will
+    # use the same configuration to connect to Kafka as either the ones
+    # generated by the chart if using `kafka.enabled=true` or the config from
+    # `externalKafka` otherwise.
+    enabled: false
+
+    # -- Config added to spec at the top level of the `ScaledObject`.
+    config:
+      pollingInterval: 30
+
+    # -- KEDA trigger config for type kafka. This will be merged in with other
+    # config such as consumer group id and topic which will be set
+    # automatically.
+    kafkaTrigger:
+      enabled: true
+
+      metadata:
+        # -- At what lag value should KEDA scaling start.
+        lagThreshold: "1000"
+        # -- At what lag value should KEDA scale from 0 replicas.
+        activationLagThreshold: "0"
+        excludePersistentLag: "true" # Don't include stuck partitions in autoscaling decisions.
+
+  rollout:
+    # The max surge in pods during a rollout
+    maxSurge: 25%
+    # The max unavailable during a rollout
+    maxUnavailable: 25%
+
   # -- Additional env variables to inject into the plugin-server stack deployment.
   env: []
 
@@ -397,6 +753,124 @@ pluginsIngestion:
   # -- Pod security context for the plugin-server stack deployment.
   podSecurityContext:
     enabled: false
+
+  livenessProbe:
+    # -- The liveness probe failure threshold
+    failureThreshold: 3
+    # -- The liveness probe initial delay seconds
+    initialDelaySeconds: 10
+    # -- The liveness probe period seconds
+    periodSeconds: 10
+    # -- The liveness probe success threshold
+    successThreshold: 1
+    # -- The liveness probe timeout seconds
+    timeoutSeconds: 2
+
+  readinessProbe:
+    # -- The readiness probe failure threshold
+    failureThreshold: 3
+    # -- The readiness probe initial delay seconds
+    initialDelaySeconds: 50
+    # -- The readiness probe period seconds
+    periodSeconds: 30
+    # -- The readiness probe success threshold
+    successThreshold: 1
+    # -- The readiness probe timeout seconds
+    timeoutSeconds: 5
+
+  # -- Sentry endpoint to send errors to. Falls back to global sentryDSN
+  sentryDSN:
+
+recordingsBlobIngestion:
+  # -- Whether to install the HumanSignals session recordings blob ingestion capability as
+  # an individual workload.
+  enabled: false
+
+  # -- Count of plugin-server pods to run. This setting is ignored if `recordingsBlobIngestion.hpa.enabled` is set to `true`.
+  replicacount: 1
+
+  volumeMounts:
+    - mountPath: "/session-buffers"
+      name: session-buffers
+
+  volumes:
+    - name: session-buffers
+      ephemeral:
+        volumeClaimTemplate:
+          spec:
+            accessModes: ["ReadWriteOnce"]
+            storageClassName: "gp3"
+            resources:
+              requests:
+                storage: 50Gi
+
+  hpa:
+    # -- Whether to create a HorizontalPodAutoscaler for the plugin stack.
+    enabled: false
+    # -- CPU threshold percent for the plugin-server stack HorizontalPodAutoscaler.
+    cputhreshold: 60
+    # -- Min pods for the plugin-server stack HorizontalPodAutoscaler.
+    minpods: 1
+    # -- Max pods for the plugin-server stack HorizontalPodAutoscaler.
+    maxpods: 10
+    # -- Set the HPA behavior. See
+    # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+    # for configuration options
+    behavior:
+
+  keda:
+    # -- Whether to create a ScaleObject to handle scaling of the consumer group
+    # deployment using KEDA. `hpa.enabled` must be false to use this. We will
+    # use the same configuration to connect to Kafka as either the ones
+    # generated by the chart if using `kafka.enabled=true` or the config from
+    # `externalKafka` otherwise.
+    enabled: false
+
+    # -- Config added to spec at the top level of the `ScaledObject`.
+    config:
+      pollingInterval: 30
+
+    # -- KEDA trigger config for type kafka. This will be merged in with other
+    # config such as consumer group id and topic which will be set
+    # automatically.
+    #
+    # TODO: add support for all security protocol config.
+    kafkaTrigger:
+      enabled: true
+
+      metadata:
+        # -- At what lag value should KEDA scaling start.
+        lagThreshold: "1000"
+        # -- At what lag value should KEDA scale from 0 replicas.
+        activationLagThreshold: "0"
+        excludePersistentLag: "true" # Don't include stuck partitions in autoscaling decisions.
+
+  rollout:
+    # The max surge in pods during a rollout
+    maxSurge: 25%
+    # The max unavailable during a rollout
+    maxUnavailable: 25%
+
+  # -- Additional env variables to inject into the plugin-server stack deployment.
+  env: []
+
+  # -- Resource limits for the plugin-server stack deployment.
+  resources: {}
+
+  # -- Node labels for the plugin-server stack deployment.
+  nodeSelector: {}
+  # -- Toleration labels for the plugin-server stack deployment.
+  tolerations: []
+  # -- Affinity settings for the plugin-server stack deployment.
+  affinity: {}
+
+  # -- Container security context for the plugin-server stack deployment.
+  securityContext:
+    enabled: false
+  # -- Pod security context for the plugin-server stack deployment.
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1000
 
   livenessProbe:
     # -- The liveness probe failure threshold
@@ -446,6 +920,12 @@ pluginsExports:
     # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
     # for configuration options
     behavior:
+
+  rollout:
+    # The max surge in pods during a rollout
+    maxSurge: 25%
+    # The max unavailable during a rollout
+    maxUnavailable: 25%
 
   # -- Additional env variables to inject into the plugin-server stack deployment.
   env: []
@@ -516,6 +996,12 @@ pluginsJobs:
     # for configuration options
     behavior:
 
+  rollout:
+    # The max surge in pods during a rollout
+    maxSurge: 25%
+    # The max unavailable during a rollout
+    maxUnavailable: 25%
+
   # -- Additional env variables to inject into the plugin-server stack deployment.
   env: []
 
@@ -585,6 +1071,12 @@ pluginsScheduler:
     # for configuration options
     behavior:
 
+  rollout:
+    # The max surge in pods during a rollout
+    maxSurge: 25%
+    # The max unavailable during a rollout
+    maxUnavailable: 25%
+
   # -- Additional env variables to inject into the plugin-server stack deployment.
   env: []
 
@@ -631,6 +1123,65 @@ pluginsScheduler:
 
   # -- Sentry endpoint to send errors to. Falls back to global sentryDSN
   sentryDSN:
+
+toolbox:
+  # -- Whether to install the HumanSignals toolbox deployment
+  enabled: false
+  # -- Additional env variables to inject into the toolbox deployment.
+  env: []
+  # -- Resource limits for the toolbox deployment.
+  resources: {}
+
+temporalPyWorker:
+  # -- Whether to install the HumanSignals Temporal Python worker stack or not.
+  enabled: false
+
+  # -- Count of worker pods to run. This setting is ignored if `worker.hpa.enabled` is set to `true`.
+  replicacount: 1
+
+  # -- The grace period for the worker pods. This is slightly larger than the
+  # default 5 minutes of the worker by default.
+  terminationGracePeriodSeconds: 310
+
+  hpa:
+    # -- Whether to create a HorizontalPodAutoscaler for the worker stack.
+    enabled: false
+    # -- CPU threshold percent for the worker stack HorizontalPodAutoscaler.
+    cputhreshold: 60
+    # -- Min pods for the worker stack HorizontalPodAutoscaler.
+    minpods: 1
+    # -- Max pods for the worker stack HorizontalPodAutoscaler.
+    maxpods: 10
+    # -- Set the HPA behavior. See
+    # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+    # for configuration options
+    behavior:
+
+  rollout:
+    # The max surge in pods during a rollout
+    maxSurge: 25%
+    # The max unavailable during a rollout
+    maxUnavailable: 25%
+
+  # -- Additional env variables to inject into the worker stack deployment.
+  env: []
+
+  # -- Resource limits for the worker stack deployment.
+  resources: {}
+
+  # -- Node labels for the worker stack deployment.
+  nodeSelector: {}
+  # -- Toleration labels for the worker stack deployment.
+  tolerations: []
+  # -- Affinity settings for the worker stack deployment.
+  affinity: {}
+
+  # -- Container security context for the worker stack deployment.
+  securityContext:
+    enabled: false
+  # -- Pod security context for the worker stack deployment.
+  podSecurityContext:
+    enabled: false
 
 email:
   # -- SMTP service host.
@@ -878,8 +1429,9 @@ externalPostgresql:
 ### ---- PGBOUNCER ----
 ###
 ###
-pgbouncer:
-  # -- Whether to deploy a PgBouncer service to satisfy the applications requirements.
+
+_pgbouncer: &_pgbouncer 
+# -- Whether to deploy a PgBouncer service to satisfy the applications requirements.
   enabled: true
 
   exporter:
@@ -998,6 +1550,21 @@ pgbouncer:
   ## -- PgBouncer pod(s) annotation.
   podAnnotations: {}
 
+pgbouncer:
+  <<: *_pgbouncer
+
+  fqdn: ""
+
+pgbouncerRead:
+  <<: *_pgbouncer
+
+  # Specify the host to use for a read-replica. This would usually be some sort of load balancer,
+  # and otherwise all credentials would be the same
+  host: ""
+  fqdn: ""
+
+  enabled: false
+
 ###
 ###
 ### ---- REDIS ----
@@ -1065,6 +1632,13 @@ externalRedis:
   # -- Name of the key pointing to the password in your Kubernetes secret.
   existingSecretPasswordKey: ""
 
+externalSessionRecordingRedis: {}
+  # -- External Redis host to use.
+  # host: ""
+  # -- External Redis port to use.
+  # port: 6379
+
+
 ###
 ###
 ### ---- KAFKA ----
@@ -1105,6 +1679,27 @@ kafka:
 externalKafka:
   # - External Kafka brokers. Ignored if `kafka.enabled` is set to `true`. Multiple brokers can be provided as array/list.
   brokers: []
+  # - Use TLS to connect to the external kafka cluster
+  tls: false
+
+externalSessionRecordingKafka:
+  # - External Kafka brokers for session recordings. Ignored if `kafka.enabled` is set to `true`. Multiple brokers can be provided as array/list.
+  brokers: []
+  # - Use TLS to connect to the external kafka cluster
+  tls: false
+
+###
+###
+### ---- TEMPORAL SCHEDULER ----
+### TODO: add support for a self-hosted scheduler in another PR.
+###
+externalTemporal:
+  # - External Temporal scheduler's hostname
+  host: ""
+  # - External Temporal scheduler's port
+  port: 7233
+  # - Namespace to register into
+  namespace: ""
 
 ###
 ###
@@ -1182,7 +1777,7 @@ clickhouse:
     # -- ClickHouse image repository.
     repository: clickhouse/clickhouse-server
     # -- ClickHouse image tag. Note: HumanSignals does not support all versions of ClickHouse. Please override the default only if you know what you are doing.
-    tag: "22.3.13.80"
+    tag: "22.8.11.15"
     # -- Image pull policy
     pullPolicy: IfNotPresent
     ## Optionally specify an array of imagePullSecrets.
@@ -1305,7 +1900,7 @@ clickhouse:
       # -- ClickHouse image repository.
       repository: clickhouse/clickhouse-server
       # -- ClickHouse image tag. Note: HumanSignals does not support all versions of ClickHouse. Please override the default only if you know what you are doing.
-      tag: "22.3.13.80"
+      tag: "22.8.11.15"
       # -- Image pull policy
       pullPolicy: IfNotPresent
       ## Optionally specify an array of imagePullSecrets.
@@ -1472,6 +2067,8 @@ externalObjectStorage:
   port:
   # -- Bucket name to use.
   bucket:
+  # -- Region of the bucket (for AWS).
+  region:
   # -- Name of an existing Kubernetes secret object containing the `access_key_id` and `secret_access_key`. The secret has to contain the keys `root-user` and `root-password`).
   existingSecret:
 
@@ -1720,6 +2317,224 @@ prometheus:
       # https://github.com/samber/awesome-prometheus-alerts
       #
       groups:
+        - name: PostHog
+          rules:
+            - alert: IngestionOverflowProduction
+              expr: |
+                sum(
+                  delta(
+                    kafka_topic_partition_current_offset{
+                      topic="events_plugin_ingestion_overflow"
+                    }[1m]
+                  )
+                ) > 0
+              for: 10m
+              labels:
+                rotation: common
+                severity: warning
+              annotations:
+                summary: |
+                  Ingestion has pushed events to the overflow topic for
+                  10 minutes.
+                description: Due to some scenario such as many events from a
+                  single distinct_id, we have pushed some events to the
+                  ingestion overflow topic so we can keed up with events from
+                  other users. Check partition stats for how many events we've
+                  received for each distinct_id or team_id, or look in
+                  ClickHouse for any recent trends for distinct_ids.
+
+            - alert: IngestionOverflowConsumerLag
+              expr: |
+                sum(
+                  delta(
+                    kafka_consumergroup_lag{
+                      topic='events_plugin_ingestion_overflow', consumergroup="clickhouse-ingestion-overflow"
+                    }[2m]
+                  )
+                ) > 0
+              for: 10m
+              labels:
+                rotation: common
+                severity: warning
+              annotations:
+                summary: |
+                  Ingestion lag on the Overflow topic has been increasing over the past 10 minutes.
+                description: |
+                  Lag on the ingestion topic is increasing. Check that the
+                  consumer for the topic is running. Also check the production
+                  rate to the topic to see if there is an unusually high volume
+                  going to it.
+
+            - alert: DjangoErrorRate
+              expr: |
+                sum by (role) (increase(django_http_responses_total_by_status_view_method_total{status=~"^5.*"}[5m])) /
+                sum by (role) (increase(django_http_responses_total_by_status_view_method_total[5m])) > 0.02
+              for: 5m
+              labels:
+                rotation: common
+                severity: critical
+              annotations:
+                summary: Django error rate exceeds 2% on role {{ $labels.role }}
+                description: |
+                  Django reports a high error rate (5xx status codes) on role {{ $labels.role }}.
+                  Check the "Exceptions" widget in the "HTTP by application endpoint" dashboard and the pod logs to
+                  identify the issue. Either a dependency is unhealthy, or a recent code change triggered a bug and
+                  needs to be rolled-back.
+
+            - alert: End2EndIngestionLag
+              expr: (max by(scenario) (posthog_celery_observed_ingestion_lag_seconds{scenario=~"ingestion_api|ingestion"})) > 1200
+              for: 5m
+              labels:
+                rotation: common
+                severity: critical
+              annotations:
+                summary: End-to-end analytics event ingestion lag exceeds 20 minutes for more than 5 minutes.
+                description: |
+                  Our end-to-end probe measured an ingestion lag higher than 20 minutes for scenario {{ $labels.scenario }}.
+                  Check the "Kafka (cluster overview)" dashboard to identify what topics and partitions are lagging and
+                  follow the https://posthog.com/docs/runbook/services/plugin-server/ingestion-lag runbook for recovery
+                  steps.
+
+            - alert: ExportsConsumerDelayed
+              expr: (time() * 1000 - (max(latest_processed_timestamp_ms{groupId="async_handlers",topic="clickhouse_events_json"}))) > 300000
+              for: 5m
+              labels:
+                rotation: common
+                severity: critical
+              annotations:
+                summary: Exports and WebHooks have delayed by more than 5 minutes for more than 5 minutes.
+                description: "Latest timestamp registered as processed on topic 'clickhouse_events_json', consumer group 'async_handlers' more then 5 minutes old"
+
+            - alert: ScheduledTasksConsumerDelayed
+              expr: (time() * 1000 - (max(latest_processed_timestamp_ms{groupId="scheduled-tasks-runner",topic="scheduled_tasks"}))) > 300000
+              for: 10m
+              labels:
+                rotation: common
+                severity: critical
+              annotations:
+                summary: RunEveryX tasks have been delayed by more than 5 minutes for more than 5 minutes.
+                description: "Latest timestamp registered as processed on topic 'scheduled_tasks', consumer group 'scheduled-tasks-runner' more then 5 minutes old"
+
+            - alert: JobsConsumerDelayed
+              expr: (time() * 1000 - (max(latest_processed_timestamp_ms{groupId="jobs-inserter",topic="jobs"}))) > 300000
+              for: 10m
+              labels:
+                rotation: common
+                severity: critical
+              annotations:
+                summary: Jobs scheduled via Apps jobs have been delayed by more than 5 minutes for more than 5 minutes.
+                runbook_url: https://github.com/PostHog/product-internal/blob/main/infrastructure/runbooks/pipeline/graphile.md
+                description: |
+                  Latest timestamp registered as processed on topic 'jobs', consumer group 'jobs-inserter' more then 5 minutes old.
+                  Check https://github.com/PostHog/product-internal/blob/main/infrastructure/runbooks/pipeline/graphile.md
+                  for more context and steps to recovery.
+
+            - alert: IngestionConsumerDelayed
+              expr: (time() * 1000 - (max(latest_processed_timestamp_ms{groupId="ingestion",topic="events_plugin_ingestion"}))) > 300000
+              for: 5m
+              labels:
+                rotation: common
+                severity: critical
+              annotations:
+                summary: Ingestion for analytics events has been delayed by more than 5 minutes for more than 5 minutes.
+                description: "Latest timestamp registered as processed on topic 'events_plugin_ingestion', consumer group 'ingestion' more then 5 minutes old"
+
+            - alert: RecordingsConsumerDelayed
+              # TODO: fix these consumer delay alerts. The issue with the
+              # current alerts is that they are not the _oldest_ message not
+              # processed but the _newest_ of the oldest _per partition_. This
+              # applies to all the alerts for consumer lag above. Adjusting the
+              # query to the below could work, but also simply using absolute
+              # lag may be the least work
+              #
+              # ```
+              # (time() * 1000 - (
+              #   min(
+              #     max(
+              #       latest_processed_timestamp_ms{groupId="session-recordings",topic="session_recording_events"}
+              #     ) by (topic)
+              #   )
+              # ))
+              # ```
+              #
+              # The issue with the above is when there is no volume on a
+              # partition, then we end up not reporting a timestamp for this
+              # partition and the alert will sound incorrectly.
+              expr: (time() * 1000 - (max(latest_processed_timestamp_ms{groupId="session-recordings",topic="session_recording_events"}))) > 300000
+              for: 5m
+              labels:
+                rotation: common
+                severity: critical
+              annotations:
+                summary: Ingestion for session recording and web performance events has been delayed by more than 5 minutes for more than 5 minutes.
+                description: "Latest timestamp registered as processed on topic 'session_recording_events', consumer group 'session-recordings' more then 5 minutes old"
+
+            - alert: RecordingsConsumerDLQ
+              expr: sum(delta(kafka_topic_partition_current_offset{topic="session_recording_events_dlq"}[5m])) > 0
+              for: 1m
+              labels:
+                rotation: common
+                severity: critical
+              annotations:
+                summary: Failed to process some session recording events and have been sent to the dead letter queue for review.
+                description: "The `session_recording_events_dlq` topic offset has increased over the past 5 minutes."
+
+            - alert: GraphileJobExecutionLag
+              expr: (max by(task_identifier) (posthog_celery_graphile_lag_seconds{task_identifier!="bufferJob"})) > 900
+              for: 5m
+              labels:
+                rotation: common
+                severity: critical
+              annotations:
+                summary: Graphile jobs execution lag exceeds 15 minutes for more than 5 minutes.
+                runbook_url: https://github.com/PostHog/product-internal/blob/main/infrastructure/runbooks/pipeline/graphile.md
+                description: |
+                  Jobs of type {{ $labels.task_identifier }} have been sitting in the Graphile execution queue for more
+                  than 5 minutes, possibly delaying apps and/or exports.
+                  Check https://github.com/PostHog/product-internal/blob/main/infrastructure/runbooks/pipeline/graphile.md
+                  for more context and steps to recovery.
+
+            - alert: CeleryQueueDepth
+              expr: (max (posthog_celery_queue_depth)) > 1000
+              for: 10m
+              labels:
+                rotation: common
+                severity: critical
+              annotations:
+                summary: Celery job execution delayed for more than 10 minutes.
+                description: |
+                  The Celery jobs queue (stored in Redis) is filling up faster than it is consumed. This impacts our
+                  monitoring, as some paging monitors depend on metrics exported by Celery jobs.
+                    - make sure posthog-worker pods are healthy and check their logs
+                    - look for recent code changes to posthog/celery.py and rollback if needed
+                    - check the health of Postgres and Clickhouse, many jobs query them and could hang if these
+                      stores get slow
+
+            - alert: KafkaDiskCritical
+              expr: min by (instance) (aws_msk_node_filesystem_free_bytes{mountpoint="/kafka/datalogs"}) < 536870912000
+              for: 2m
+              labels:
+                severity: critical
+                rotation: common
+              annotations:
+                summary: Less than 500GB free on Kafka broker(s)
+                description: |
+                  Kafka disks are getting full and should be upscaled before we lose new events.
+                  We should upscale the disks, or (as a last-ditch option) lower the data retention
+                  to free up disk space.
+
+            - alert: KafkaDiskCapacityPlanning
+              expr: min by (instance) (aws_msk_node_filesystem_free_bytes{mountpoint="/kafka/datalogs"}) < 1036870912000
+              for: 2m
+              labels:
+                severity: warning
+                rotation: infra
+              annotations:
+                summary: Less than 1TB free on Kafka broker(s)
+                description: |
+                  Kafka disks are getting full and should be upscaled before we lose new events.
+                  If not handled, the KafkaDiskCritical will page the common rotation at 500GB.
+
         - name: Kubernetes # via kube-state-metrics
           rules:
             - alert: KubernetesNodeReady
@@ -2429,6 +3244,31 @@ prometheus:
               annotations:
                 summary: Redis rejected connections (instance {{ $labels.instance }})
                 description: "Some connections to Redis has been rejected"
+
+###
+###
+### ---- prometheus-pushgateway ----
+###
+###
+prometheus-pushgateway:
+  # -- Whether to install the `prometheus-pushgateway` or not.
+  enabled: false
+  # -- Map of annotations to add to the pods.
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+    prometheus.io/port: "9091"
+
+###
+###
+### ---- external-prometheus-pushgateway ----
+###
+###
+external-prometheus-pushgateway:
+  # -- Whether to enable the external `prometheus-pushgateway` or not.
+  enabled: false
+  # -- Address to the external `prometheus-pushgateway`
+  address: prometheus-pushgateway:9091
 
 ###
 ###

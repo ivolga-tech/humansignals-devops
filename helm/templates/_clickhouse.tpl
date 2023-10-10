@@ -1,4 +1,4 @@
-{{/* Common ClickHouse ENV variables and helpers used by HumanSignals */}}
+{{/* Common ClickHouse ENV variables and helpers used by humansignals */}}
 {{- define "snippet.clickhouse-env" }}
 {{- if .Values.clickhouse.enabled -}}
 - name: CLICKHOUSE_HOST

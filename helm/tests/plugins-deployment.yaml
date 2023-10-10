@@ -104,7 +104,7 @@ tests:
           path: spec.template.spec.containers[0].env
           content:
             name: PLUGIN_SERVER_MODE
-            value:
+            value: 
 
   - it: sets PLUGIN_SERVER_MODE if pluginsAsync is enabled
     template: templates/plugins-deployment.yaml # TODO: remove once secrets.yaml will be fixed/removed
