@@ -1,7 +1,7 @@
 dependencies:
 - name: cert-manager
   repository: https://charts.jetstack.io
-  version: v1.6.1
+  version: v1.14.2
 - name: ingress-nginx
   repository: https://kubernetes.github.io/ingress-nginx
   version: 4.0.13
@@ -44,5 +44,5 @@ dependencies:
 - name: prometheus-statsd-exporter
   repository: https://prometheus-community.github.io/helm-charts
   version: 0.3.1
-digest: sha256:f81f6e43a46855962f0596a0acb0cc8c6f68fa89fbed3d50a8a88902102ae885
-generated: "2023-05-02T18:09:00.793411099+06:00"
+digest: sha256:b42cc68a89525b2fdc8569b82bd1cf2d80da65d66fe8ffa408df312626a64ef2
+generated: "2024-02-13T16:21:45.020414686+06:00"

@@ -721,12 +721,7 @@ cert-manager:
   enabled: false
   # -- Whether to install `cert-manager` CRDs.
   installCRDs: true
-  # -- Who to email if the certificate is about to expire
-  # -- Defaults to `notificationEmail` if it is available
-  # -- Base default is noreply@<your-ingress-hostname>
-  email: null
 
-  #
   # [Workaround] - do not use the local DNS for the 'cert-manager' pods since it would return local IPs
   # and break self checks.
   #
@@ -738,13 +733,11 @@ cert-manager:
   #
   # This has some side effects, like 'cert-manager' pods not being able to resolve cluster-local names,
   # but so far this has not caused issues (and we don't expect it to do so).
-  #
   podDnsPolicy: None
   podDnsConfig:
     nameservers:
-      - 8.8.8.8
       - 1.1.1.1
-      - 208.67.222.222
+      - 8.8.8.8
 
 ###
 ###
